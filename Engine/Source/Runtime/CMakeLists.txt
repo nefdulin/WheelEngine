@@ -5,6 +5,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 add_compile_definitions(WHEEL_DYNAMIC_LIBRARY)
 add_compile_definitions(WHEEL_PLATFORM_MAC)
 
+include_directories(../ThirdParty/spdlog/include)
+
 set(SRC_CORE
         Core/Core.h
         Core/EntryPoint.h
