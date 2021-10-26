@@ -1,9 +1,8 @@
 #pragma once
-#include "Core.h"
 
-namespace Wheel
-{
-    class WHEEL_API Application
+namespace Wheel {
+
+    class Application
     {
     public:
         Application();

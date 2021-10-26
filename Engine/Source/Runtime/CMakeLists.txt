@@ -11,7 +11,9 @@ set(SRC_CORE
         Core/Core.h
         Core/EntryPoint.h
         Core/Application.h
-        Core/Application.cpp)
+        Core/Application.cpp
+        Core/Log.h
+        Core/Log.cpp)
 
 source_group(Wheel\\\\Core FILES ${SRC_CORE})
 
