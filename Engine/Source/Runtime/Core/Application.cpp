@@ -5,6 +5,7 @@ namespace Wheel {
 
     Application::Application()
     {
+
     }
 
     Application::~Application()
