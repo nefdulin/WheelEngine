@@ -13,6 +13,14 @@ set(SRC_CORE
         Core/Log.h
         Core/Log.cpp)
 
-source_group(Wheel\\\\Core FILES ${SRC_CORE})
+set(SRC_EVENT
+        Event/Event.h)
 
-add_library(Engine SHARED ${SRC_CORE})
+set(WHEEL_SRC
+        ${SRC_CORE}
+        ${SRC_EVENT})
+
+source_group(Wheel\\\\Core FILES ${SRC_CORE})
+source_group(Wheel\\\\Event FILES ${SRC_EVENT})
+
+add_library(Engine SHARED ${WHEEL_SRC})
