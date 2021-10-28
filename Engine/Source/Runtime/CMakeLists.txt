@@ -29,6 +29,9 @@ set(WHEEL_SRC
 source_group(Wheel\\\\Core FILES ${SRC_CORE})
 source_group(Wheel\\\\Event FILES ${SRC_EVENT})
 
+# Shouldn't these be in top level CMakeLists.txt?
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/lib")
+
 add_library(Engine SHARED
                         ${SRC_CORE}
                         ${SRC_EVENT})
