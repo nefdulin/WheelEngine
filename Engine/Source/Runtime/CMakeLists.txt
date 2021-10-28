@@ -32,3 +32,12 @@ source_group(Wheel\\\\Event FILES ${SRC_EVENT})
 add_library(Engine SHARED
                         ${SRC_CORE}
                         ${SRC_EVENT})
+
+target_precompile_headers(Engine PRIVATE
+        <iostream>
+        <vector>
+        <string>
+        <functional>
+        <algorithm>
+        <memory>
+        <sstream>)

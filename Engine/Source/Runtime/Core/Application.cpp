@@ -1,6 +1,5 @@
 #include "Application.h"
-#include <iostream>
-#include "../Event/ApplicationEvent.h"
+#include "Events/ApplicationEvent.h"
 
 namespace Wheel {
 
@@ -16,6 +15,8 @@ namespace Wheel {
 
     void Application::Run()
     {
+        AppUpdateEvent newUpdateEvent;
+        std::cout << newUpdateEvent.GetName() << std::endl;
         while (true)
         {
             //std::cout << "Running" << std::endl;
