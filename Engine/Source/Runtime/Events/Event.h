@@ -9,7 +9,7 @@ namespace Wheel {
         None = 0,
         WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
         AppTick, AppUpdate, AppRender,
-        KeyPressed, KeyReleased,
+        KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 
@@ -47,7 +47,7 @@ namespace Wheel {
     class EventDispatcher
     {
         template<typename T>
-        using EventFn = std::function<bool>(T&);
+        using EventFn = std::function<bool(T&)>;
     public:
         EventDispatcher(Event& event)
                 : m_Event(event) {}

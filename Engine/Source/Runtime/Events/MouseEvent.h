@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/MouseCodes.h"
 
 namespace Wheel {
 

@@ -10,3 +10,12 @@ set(WHEEL_LIB ${CMAKE_BINARY_DIR}/lib/libEngine.dylib)
 add_executable(Game Source/main.cpp)
 
 target_link_libraries(Game ${WHEEL_LIB})
+
+target_precompile_headers(Game PRIVATE
+        <iostream>
+        <vector>
+        <string>
+        <functional>
+        <algorithm>
+        <memory>
+        <sstream>)
