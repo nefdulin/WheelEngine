@@ -1,4 +1,5 @@
 #pragma once
+#include "Window.h"
 
 namespace Wheel {
 
@@ -9,6 +10,9 @@ namespace Wheel {
         virtual ~Application();
 
         void Run();
+    private:
+        std::unique_ptr<Window> m_Window;
+        bool m_Running = true;
     };
 
     // Will be defined by the CLIENT

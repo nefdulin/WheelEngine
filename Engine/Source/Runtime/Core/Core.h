@@ -9,4 +9,10 @@
     #endif
 #else
     #define WHEEL_API
+    #define WHEEL_ENABLE_ASSERTS
+#endif
+
+#ifdef WHEEL_ENABLE_ASSERTS
+    #define WHEEL_ASSERT(expr, ...) { if (!(expr)) { WHEEL_ERROR("Assertion failed {0}", __VA_ARGS__); __builtin_trap();();} else {} }
+    #define WHEEL_CORE_ASSERT(expr, ...) { if (!(expr)) { WHEEL_CORE_ERROR("Core Assertion failed {0}", __VA_ARGS__); __builtin_trap();} else {} }
 #endif
