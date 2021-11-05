@@ -6,7 +6,7 @@ add_compile_definitions(WHEEL_PLATFORM_MAC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(../ThirdParty/spdlog/include)
 include_directories(../ThirdParty/glfw/include)
-
+include_directories(../ThirdParty/glad/include)
 
 set(SRC_CORE
         Core/Core.h
@@ -51,7 +51,7 @@ add_library(Engine  SHARED
                         ${SRC_PLATFORM})
 
 target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglfw.3.dylib")
-#target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglfw.3.dylib")
+target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglad.dylib")
 
 target_precompile_headers(Engine PRIVATE
         <iostream>

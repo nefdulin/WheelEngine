@@ -3,6 +3,8 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Core/MouseCodes.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Wheel {
 
@@ -37,12 +39,15 @@ namespace Wheel {
             WHEEL_CORE_ASSERT(success, "GLFW Initialization failed");
             s_GLFWInitialized = true;
         }
-
         m_Window = glfwCreateWindow((int) m_Data.width, (int) m_Data.height, m_Data.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
-        ;
+
+        // Setting glad
+        int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+        WHEEL_CORE_ASSERT(status, "Failed to initialize glad!");
+
         // Setting glfw callbacks
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
         {

@@ -1,7 +1,7 @@
 #include "Application.h"
 #include "Events/ApplicationEvent.h"
 #include "Log.h"
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Wheel {
 
@@ -20,8 +20,8 @@ namespace Wheel {
     {
         while (m_Running)
         {
-            //glClearColor(1, 0, 1, 1);
-            //glClear(GL_COLOR_BUFFER_BIT);
+            glClearColor(1, 0, 1, 1);
+            glClear(GL_COLOR_BUFFER_BIT);
             m_Window->OnUpdate();
 
             for (Layer* layer : m_LayerStack)
