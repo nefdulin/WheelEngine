@@ -17,7 +17,11 @@ set(SRC_CORE
         Core/Log.cpp
         Core/KeyCodes.h
         Core/MouseCodes.h
-        Core/Window.h)
+        Core/Window.h
+        Core/Layer.h
+        Core/Layer.cpp
+        Core/LayerStack.h
+        Core/LayerStack.cpp)
 
 set(SRC_EVENT
         Events/Event.h
@@ -41,12 +45,13 @@ source_group(Wheel\\\\Platform FILES ${SRC_PLATFORM})
 # Shouldn't these be in top level CMakeLists.txt?
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/lib")
 
-add_library(Engine SHARED
+add_library(Engine  SHARED
                         ${SRC_CORE}
                         ${SRC_EVENT}
                         ${SRC_PLATFORM})
 
 target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglfw.3.dylib")
+#target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglfw.3.dylib")
 
 target_precompile_headers(Engine PRIVATE
         <iostream>

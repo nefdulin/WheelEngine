@@ -6,11 +6,6 @@
 
 namespace Wheel {
 
-    class WindowsWindow : public Window
-    {
-
-    };
-
     static bool s_GLFWInitialized = false;
 
     Window* Window::Create(const WindowProps &props)

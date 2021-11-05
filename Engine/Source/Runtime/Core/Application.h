@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "Events/ApplicationEvent.h"
+#include "LayerStack.h"
 
 namespace Wheel {
 
@@ -15,9 +16,14 @@ namespace Wheel {
 
         bool OnWindowResize(WindowResizeEvent& e);
         bool OnWindowClose(WindowCloseEvent& e);
+
+        void PushLayer(Layer* layer);
+        void PushOverlay(Layer* overlay);
     private:
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
+
+        LayerStack m_LayerStack;
     };
 
     // Will be defined by the CLIENT
