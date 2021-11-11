@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "Events/ApplicationEvent.h"
+#include "Events/MouseEvent.h"
 #include "LayerStack.h"
 
 namespace Wheel {
@@ -16,6 +17,8 @@ namespace Wheel {
 
         bool OnWindowResize(WindowResizeEvent& e);
         bool OnWindowClose(WindowCloseEvent& e);
+
+        bool OnMouseMoved(MouseMovedEvent& e);
 
         void PushLayer(Layer* layer);
         void PushOverlay(Layer* overlay);
