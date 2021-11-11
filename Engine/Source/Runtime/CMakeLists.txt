@@ -7,6 +7,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(../ThirdParty/spdlog/include)
 include_directories(../ThirdParty/glfw/include)
 include_directories(../ThirdParty/glad/include)
+include_directories(../ThirdParty/ImGui)
 
 set(SRC_CORE
         Core/Core.h
@@ -31,27 +32,31 @@ set(SRC_EVENT
 
 set(SRC_PLATFORM
         Platform/Mac/MacWindow.h
-        Platform/Mac/MacWindow.cpp)
+        Platform/Mac/MacWindow.cpp
+        Platform/OpenGL/ImGuiOpenGLRenderer.h
+        Platform/OpenGL/ImGuiOpenGLRenderer.cpp)
+
+set(SRC_IMGUI
+        #ImGui/ImGuiBuild.cpp
+        ImGui/ImGuiLayer.h
+        ImGui/ImGuiLayer.cpp)
 
 set(WHEEL_SRC
         ${SRC_CORE}
         ${SRC_EVENT}
-        ${SRC_PLATFORM})
+        ${SRC_PLATFORM}
+        ${SRC_IMGUI})
 
 source_group(Wheel\\\\Core FILES ${SRC_CORE})
 source_group(Wheel\\\\Event FILES ${SRC_EVENT})
 source_group(Wheel\\\\Platform FILES ${SRC_PLATFORM})
+source_group(Wheel\\\\ImGui FILES ${SRC_IMGUI})
 
-# Shouldn't these be in top level CMakeLists.txt?
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/lib")
+add_library(Engine SHARED ${WHEEL_SRC})
 
-add_library(Engine  SHARED
-                        ${SRC_CORE}
-                        ${SRC_EVENT}
-                        ${SRC_PLATFORM})
-
-target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglfw.3.dylib")
-target_link_libraries(Engine "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libglad.dylib")
+target_link_libraries(Engine  glfw)
+target_link_libraries(Engine  glad)
+target_link_libraries(Engine  imgui)
 
 target_precompile_headers(Engine PRIVATE
         <iostream>

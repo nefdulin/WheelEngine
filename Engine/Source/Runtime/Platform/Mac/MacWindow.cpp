@@ -39,6 +39,14 @@ namespace Wheel {
             WHEEL_CORE_ASSERT(success, "GLFW Initialization failed");
             s_GLFWInitialized = true;
         }
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
         m_Window = glfwCreateWindow((int) m_Data.width, (int) m_Data.height, m_Data.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);

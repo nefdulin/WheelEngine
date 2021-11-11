@@ -5,9 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_subdirectory(Engine)
-add_subdirectory(Game)
-
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
     set(OS_MACOSX 1)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
@@ -18,7 +15,8 @@ endif()
 
 set(WHEEL_BINARY_DIR "${CMAKE_BINARY_DIR}")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${WHEEL_BINARY_DIR}/bin")
+add_subdirectory(Engine)
+add_subdirectory(Game)
 
 message("LIBRARY OUTPUT: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 message(STATUS "GENERATOR: ${CMAKE_GENERATOR}")

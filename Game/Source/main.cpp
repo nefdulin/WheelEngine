@@ -6,7 +6,7 @@ class GameApp : public Wheel::Application
 public:
     GameApp()
     {
-
+        PushOverlay(new Wheel::ImGuiLayer());
     }
 
     ~GameApp()

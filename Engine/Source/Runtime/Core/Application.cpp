@@ -5,8 +5,13 @@
 
 namespace Wheel {
 
+    Application* Application::s_Instance = nullptr;
+
     Application::Application()
     {
+        WHEEL_CORE_ASSERT(s_Instance == nullptr, "An application already exists!");
+        s_Instance = this;
+
         m_Window = std::unique_ptr<Window>(Window::Create());
         m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
     }
@@ -34,7 +39,6 @@ namespace Wheel {
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
         dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
-        WHEEL_CORE_INFO("{0}", e.ToString());
 
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
@@ -60,10 +64,12 @@ namespace Wheel {
     void Application::PushLayer(Layer* layer)
     {
         m_LayerStack.PushLayer(layer);
+        layer->OnAttach();
     }
 
-    void Application::PushOverlay(Layer* overlay )
+    void Application::PushOverlay(Layer* overlay)
     {
         m_LayerStack.PushOverlay(overlay);
+        overlay->OnAttach();
     }
 }
