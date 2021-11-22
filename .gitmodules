@@ -6,4 +6,4 @@
 	url = https://github.com/glfw/glfw
 [submodule "Engine/Source/ThirdParty/ImGui"]
 	path = Engine/Source/ThirdParty/ImGui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/nefdulin/imgui
