@@ -32,12 +32,10 @@ set(SRC_EVENT
 
 set(SRC_PLATFORM
         Platform/Mac/MacWindow.h
-        Platform/Mac/MacWindow.cpp
-        Platform/OpenGL/ImGuiOpenGLRenderer.h
-        Platform/OpenGL/ImGuiOpenGLRenderer.cpp)
+        Platform/Mac/MacWindow.cpp)
 
 set(SRC_IMGUI
-        #ImGui/ImGuiBuild.cpp
+        ImGui/ImGuiBuild.cpp
         ImGui/ImGuiLayer.h
         ImGui/ImGuiLayer.cpp)
 

@@ -165,5 +165,4 @@ namespace Wheel {
     {
         return m_Data.VSync;
     }
-
 }

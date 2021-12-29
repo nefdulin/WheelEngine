@@ -9,10 +9,13 @@ namespace Wheel {
         ImGuiLayer();
         ~ImGuiLayer();
 
-        void OnAttach() override;
-        void OnDetach() override;
-        void OnUpdate() override;
-        void OnEvent(Event& event) override;
+        virtual void OnAttach() override;
+        virtual void OnDetach() override;
+
+        virtual void OnImGuiRender() override;
+
+        void Begin();
+        void End();
     private:
         float m_Time = 0.0f;
     };

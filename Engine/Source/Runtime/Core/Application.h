@@ -3,6 +3,7 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
 #include "LayerStack.h"
+#include "ImGui/ImGuiLayer.h"
 
 namespace Wheel {
 
@@ -27,6 +28,7 @@ namespace Wheel {
         inline Window& GetWindow() { return *m_Window; }
     private:
         std::unique_ptr<Window> m_Window;
+        std::shared_ptr<ImGuiLayer> m_ImGuiLayer;
         bool m_Running = true;
         LayerStack m_LayerStack;
 

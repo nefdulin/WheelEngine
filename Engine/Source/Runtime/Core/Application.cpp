@@ -13,6 +13,9 @@ namespace Wheel {
 
         m_Window = std::unique_ptr<Window>(Window::Create());
         m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+
+        m_ImGuiLayer = std::make_shared<ImGuiLayer>();
+        PushOverlay(m_ImGuiLayer.get());
     }
 
     Application::~Application()
@@ -29,6 +32,11 @@ namespace Wheel {
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
+
+            m_ImGuiLayer->Begin();
+            for (Layer* layer : m_LayerStack)
+                layer->OnImGuiRender();
+            m_ImGuiLayer->End();
 
             m_Window->OnUpdate();
         }
