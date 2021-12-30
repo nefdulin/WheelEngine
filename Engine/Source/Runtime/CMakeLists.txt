@@ -4,11 +4,12 @@ add_compile_definitions(WHEEL_DYNAMIC_LIBRARY)
 add_compile_definitions(WHEEL_PLATFORM_MAC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 include_directories(../ThirdParty/spdlog/include)
 include_directories(../ThirdParty/glfw/include)
-include_directories(../ThirdParty/glm)
 include_directories(../ThirdParty/glad/include)
 include_directories(../ThirdParty/ImGui)
+include_directories(../ThirdParty/glm)
 
 set(SRC_CORE
         Core/Core.h
@@ -53,7 +54,7 @@ source_group(Wheel\\\\Event FILES ${SRC_EVENT})
 source_group(Wheel\\\\Platform FILES ${SRC_PLATFORM})
 source_group(Wheel\\\\ImGui FILES ${SRC_IMGUI})
 
-add_library(Engine SHARED ${WHEEL_SRC})
+add_library(Engine STATIC ${WHEEL_SRC})
 
 target_link_libraries(Engine  glfw)
 target_link_libraries(Engine  glad)
