@@ -14,6 +14,7 @@ set(SRC_CORE
         Core/EntryPoint.h
         Core/Application.h
         Core/Application.cpp
+        Core/Input.h
         Core/Log.h
         Core/Log.cpp
         Core/KeyCodes.h
@@ -32,7 +33,8 @@ set(SRC_EVENT
 
 set(SRC_PLATFORM
         Platform/Mac/MacWindow.h
-        Platform/Mac/MacWindow.cpp)
+        Platform/Mac/MacWindow.cpp
+        Platform/Mac/MacInput.cpp)
 
 set(SRC_IMGUI
         ImGui/ImGuiBuild.cpp
