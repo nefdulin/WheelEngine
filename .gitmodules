@@ -7,3 +7,6 @@
 [submodule "Engine/Source/ThirdParty/ImGui"]
 	path = Engine/Source/ThirdParty/ImGui
 	url = https://github.com/nefdulin/imgui
+[submodule "engine/source/thirdparty/glm"]
+	path = engine/source/thirdparty/glm
+	url = https://github.com/g-truc/glm

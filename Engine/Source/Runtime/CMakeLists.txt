@@ -6,6 +6,7 @@ add_compile_definitions(WHEEL_PLATFORM_MAC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(../ThirdParty/spdlog/include)
 include_directories(../ThirdParty/glfw/include)
+include_directories(../ThirdParty/glm)
 include_directories(../ThirdParty/glad/include)
 include_directories(../ThirdParty/ImGui)
 
