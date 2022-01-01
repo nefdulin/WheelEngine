@@ -6,8 +6,6 @@ namespace Wheel {
     {
     public:
         static bool IsKeyPressed(int keycode);
-        static std::pair<float, float> GetMouseButtonPosition();
     };
-
 }
 

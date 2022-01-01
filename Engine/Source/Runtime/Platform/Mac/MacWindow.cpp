@@ -5,6 +5,7 @@
 #include "Core/MouseCodes.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Wheel {
 
@@ -48,13 +49,12 @@ namespace Wheel {
 #endif
 
         m_Window = glfwCreateWindow((int) m_Data.width, (int) m_Data.height, m_Data.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_Window);
+
+        m_Context = new OpenGLContext(m_Window);
+        m_Context->Init();
+
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
-
-        // Setting glad
-        int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-        WHEEL_CORE_ASSERT(status, "Failed to initialize glad!");
 
         // Setting glfw callbacks
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -148,7 +148,7 @@ namespace Wheel {
     void MacWindow::OnUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(m_Window);
+        m_Context->SwapBuffers();
     }
 
     void MacWindow::SetVSync(bool enabled)

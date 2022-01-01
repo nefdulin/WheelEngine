@@ -33,7 +33,12 @@ set(SRC_EVENT
         Events/KeyEvent.h
         Events/MouseEvent.h)
 
+set(SRC_RENDERER
+        Renderer/GraphicsContext.h)
+
 set(SRC_PLATFORM
+        Platform/OpenGL/OpenGLContext.h
+        Platform/OpenGL/OpenGLContext.cpp
         Platform/Mac/MacWindow.h
         Platform/Mac/MacWindow.cpp
         Platform/Mac/MacInput.cpp)
@@ -46,6 +51,7 @@ set(SRC_IMGUI
 set(WHEEL_SRC
         ${SRC_CORE}
         ${SRC_EVENT}
+        ${SRC_RENDERER}
         ${SRC_PLATFORM}
         ${SRC_IMGUI})
 
