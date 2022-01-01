@@ -34,11 +34,17 @@ set(SRC_EVENT
         Events/MouseEvent.h)
 
 set(SRC_RENDERER
-        Renderer/GraphicsContext.h)
+        Renderer/GraphicsContext.h
+        Renderer/Renderer.h
+        Renderer/Renderer.cpp
+        Renderer/Buffer.h
+        Renderer/Buffer.cpp)
 
 set(SRC_PLATFORM
         Platform/OpenGL/OpenGLContext.h
         Platform/OpenGL/OpenGLContext.cpp
+        Platform/OpenGL/OpenGLBuffer.h
+        Platform/OpenGL/OpenGLBuffer.cpp
         Platform/Mac/MacWindow.h
         Platform/Mac/MacWindow.cpp
         Platform/Mac/MacInput.cpp)
