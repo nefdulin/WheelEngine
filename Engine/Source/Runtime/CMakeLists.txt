@@ -37,12 +37,24 @@ set(SRC_RENDERER
         Renderer/GraphicsContext.h
         Renderer/Renderer.h
         Renderer/Renderer.cpp
+        Renderer/RendererAPI.h
+        Renderer/RendererAPI.cpp
+        Renderer/RenderCommand.h
+        Renderer/RenderCommand.cpp
+        Renderer/Shader.h
+        Renderer/Shader.cpp
+        Renderer/VertexArray.h
+        Renderer/VertexArray.cpp
         Renderer/Buffer.h
         Renderer/Buffer.cpp)
 
 set(SRC_PLATFORM
         Platform/OpenGL/OpenGLContext.h
         Platform/OpenGL/OpenGLContext.cpp
+        Platform/OpenGL/OpenGLVertexArray.h
+        Platform/OpenGL/OpenGLVertexArray.cpp
+        Platform/OpenGL/OpenGLRendererAPI.h
+        Platform/OpenGL/OpenGLRendererAPI.cpp
         Platform/OpenGL/OpenGLBuffer.h
         Platform/OpenGL/OpenGLBuffer.cpp
         Platform/Mac/MacWindow.h

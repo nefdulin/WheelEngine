@@ -9,8 +9,8 @@ namespace Wheel {
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::None:   WHEEL_CORE_ASSERT(false, "None is not a supported API"); return nullptr;
-            case RendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+            case RendererAPI::API::None:   WHEEL_CORE_ASSERT(false, "None is not a supported API"); return nullptr;
+            case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
         }
 
         WHEEL_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -21,8 +21,8 @@ namespace Wheel {
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::None:   WHEEL_CORE_ASSERT(false, "None is not a supported API"); return nullptr;
-            case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indices, count);
+            case RendererAPI::API::None:   WHEEL_CORE_ASSERT(false, "None is not a supported API"); return nullptr;
+            case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, count);
         }
 
         WHEEL_CORE_ASSERT(false, "Unknown RendererAPI!");

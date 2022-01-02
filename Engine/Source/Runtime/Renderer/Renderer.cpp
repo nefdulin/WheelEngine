@@ -2,5 +2,18 @@
 
 namespace Wheel {
 
-    RendererAPI Renderer::s_API = RendererAPI::OpenGL;
+    void Renderer::BeginScene()
+    {
+
+    }
+
+    void Renderer::DrawIndexed(VertexArray *va)
+    {
+
+    }
+
+    void Renderer::EndScene()
+    {
+
+    }
 }

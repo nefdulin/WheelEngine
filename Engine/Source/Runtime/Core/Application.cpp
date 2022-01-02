@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Log.h"
-#include <glad/glad.h>
+#include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Wheel {
 
@@ -16,6 +18,43 @@ namespace Wheel {
 
         m_ImGuiLayer = std::make_shared<ImGuiLayer>();
         PushOverlay(m_ImGuiLayer.get());
+
+        std::string vertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+			out vec3 v_Position;
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+        std::string fragmentSrc = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+			in vec3 v_Position;
+			void main()
+			{
+				color = vec4(1.0, 1.0, 1.0, 1.0);
+			}
+		)";
+
+        m_Shader = new Shader(vertexSrc, fragmentSrc);
+        m_Shader->Bind();
+
+        float vertices[] = {
+                0.5f,  0.5f, 0.0f,  // top right
+                0.5f, -0.5f, 0.0f,  // bottom right
+                -0.5f, -0.5f, 0.0f,  // bottom left
+                -0.5f,  0.5f, 0.0f   // top left
+        };
+        unsigned int indices[] = {  // note that we start from 0!
+                0, 1, 3,  // first Triangle
+                1, 2, 3   // second Triangle
+        };
     }
 
     Application::~Application()
@@ -27,8 +66,12 @@ namespace Wheel {
     {
         while (m_Running)
         {
-            glClearColor(1, 0, 1, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
+            RenderCommand::SetClearColor();
+            //RenderCommand::DrawIndexed(va);
+            RenderCommand::Clear();
+
+            Renderer::BeginScene();
+            Renderer::EndScene();
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();

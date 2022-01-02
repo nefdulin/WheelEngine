@@ -1,18 +1,16 @@
 #pragma once
+#include "RendererAPI.h"
+#include "VertexArray.h"
 
 namespace Wheel {
-
-    enum class RendererAPI
-    {
-        None = 0,
-        OpenGL
-    };
 
     class Renderer
     {
     public:
-        static RendererAPI GetAPI() const { return s_API; }
-    private:
-        static RendererAPI s_API;
+        static const RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+
+        static void BeginScene();
+        static void DrawIndexed(VertexArray* va);
+        static void EndScene();
     };
 }

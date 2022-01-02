@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/Core.h"
 
 namespace Wheel {
 
@@ -18,7 +19,7 @@ namespace Wheel {
         Bool
     };
 
-    uint32_t ShaderDataTypeSize(ShaderDataType type)
+    static uint32_t ShaderDataTypeSize(ShaderDataType type)
     {
         switch (type)
         {
