@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
 
-add_compile_definitions(WHEEL_DYNAMIC_LIBRARY)
-add_compile_definitions(WHEEL_PLATFORM_MAC)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(../ThirdParty/spdlog/include)

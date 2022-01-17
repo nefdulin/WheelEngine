@@ -7,10 +7,13 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
     set(OS_MACOSX 1)
+    add_compile_definitions(WHEEL_PLATFORM_MAC)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
     set(OS_LINUX 1)
+    add_compile_definitions(WHEEL_PLATFORM_LINUX)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
     set(OS_WINDOWS 1)
+    add_compile_definitions(WHEEL_PLATFORM_WINDOWS)
 endif()
 
 set(WHEEL_BINARY_DIR "${CMAKE_BINARY_DIR}")

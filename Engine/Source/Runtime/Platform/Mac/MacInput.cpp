@@ -3,7 +3,7 @@
 #include "Core/KeyCodes.h"
 #include <GLFW/glfw3.h>
 
-#ifdef WHEEL_PLATFORM_MAC
+#ifdef WHEEL_PLATFORM_WINDOWS
 
 namespace Wheel {
 
@@ -15,6 +15,5 @@ namespace Wheel {
         return state == GLFW_PRESS | state == GLFW_REPEAT;
     }
 }
-
 
 #endif
