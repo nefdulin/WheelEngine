@@ -28,7 +28,7 @@ class ExampleLayer : public Wheel::Layer
 			}
 		)";
 
-        m_Shader = new Wheel::Shader(vertexSrc, fragmentSrc);
+        m_Shader = new Wheel::OpenGLShader(vertexSrc, fragmentSrc);
         m_Shader->Bind();
 
         m_Camera = new Wheel::OrthographicCamera(-2.0f, 2.0f, -2.0f, 2.0f);
@@ -57,8 +57,13 @@ class ExampleLayer : public Wheel::Layer
         m_VertexArray->SetIndexBuffer(ib);
     }
 
-    virtual void OnUpdate() override
+    virtual void OnUpdate(float deltaTime) override
     {
+        WHEEL_TRACE("Current delta time is: {0}s {1}ms", deltaTime, deltaTime * 1000);
+
+        Wheel::RenderCommand::SetClearColor();
+        Wheel::RenderCommand::Clear();
+
         m_Shader->Bind();
         m_Shader->SetMat4("u_MVP", m_Camera->GetViewProjectionMatrix());
         Wheel::Renderer::BeginScene();
@@ -72,7 +77,8 @@ class ExampleLayer : public Wheel::Layer
             glm::vec3 newPosition{ cameraPosition.x, cameraPosition.y - 0.01, cameraPosition.z };
             m_Camera->SetPosition(newPosition);
         }
-        else if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
+
+        if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
         {
             glm::vec3 cameraPosition = m_Camera->GetPosition();
             glm::vec3 newPosition{ cameraPosition.x - 0.01, cameraPosition.y, cameraPosition.z };

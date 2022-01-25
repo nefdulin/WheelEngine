@@ -14,5 +14,6 @@
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 #include "ImGui/ImGuiLayer.h"

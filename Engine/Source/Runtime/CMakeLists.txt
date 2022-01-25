@@ -57,6 +57,8 @@ set(SRC_PLATFORM
         Platform/OpenGL/OpenGLRendererAPI.cpp
         Platform/OpenGL/OpenGLBuffer.h
         Platform/OpenGL/OpenGLBuffer.cpp
+        Platform/OpenGL/OpenGLShader.h
+        Platform/OpenGL/OpenGLShader.cpp
         Platform/Mac/MacWindow.h
         Platform/Mac/MacWindow.cpp
         Platform/Mac/MacInput.cpp)

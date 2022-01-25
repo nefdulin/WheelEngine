@@ -34,6 +34,8 @@ namespace Wheel {
         bool m_Running = true;
         LayerStack m_LayerStack;
 
+        float m_LastFrame;
+
     private:
         static Application* s_Instance;
     };

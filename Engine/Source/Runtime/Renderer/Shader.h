@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <glm/glm.hpp>
 
 namespace Wheel {
@@ -7,14 +6,16 @@ namespace Wheel {
     class Shader
     {
     public:
-        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        ~Shader();
+        virtual ~Shader() = default;
 
-        void Bind() const;
-        void Unbind() const;
-        void SetMat4(const std::string& name, const glm::mat4& mat) const;
-    private:
-        uint32_t m_RendererID;
+        virtual void Bind() const = 0;
+        virtual void Unbind() const = 0;
+
+        virtual void SetFloat3(const std::string& name, const glm::vec3& value) const = 0;
+        virtual void SetFloat4(const std::string& name, const glm::vec4& value) const = 0;
+        virtual void SetMat4(const std::string& name, const glm::mat4& value)   const = 0;
+        
+        static Shader* Create(const std::string& vertexFilePath, const std::string& fragmentFilePath);
     };
 
 } 

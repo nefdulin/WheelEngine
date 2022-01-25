@@ -165,4 +165,9 @@ namespace Wheel {
     {
         return m_Data.VSync;
     }
+
+    float MacWindow::GetTime() const
+    {
+        return (float)glfwGetTime();
+    }
 }

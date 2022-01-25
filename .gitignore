@@ -465,3 +465,6 @@ FodyWeavers.xsd
 *.vcxproj
 *.vcxproj.filters
 *.sln
+
+#
+Game/imgui.ini

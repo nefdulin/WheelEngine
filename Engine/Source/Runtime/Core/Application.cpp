@@ -19,6 +19,8 @@ namespace Wheel {
 
         m_ImGuiLayer = std::make_shared<ImGuiLayer>();
         PushOverlay(m_ImGuiLayer.get());
+
+        m_LastFrame = 0.0f;
     }
 
     Application::~Application()
@@ -27,14 +29,14 @@ namespace Wheel {
     }
 
     void Application::Run()
-    {
+    {       
         while (m_Running)
         {
-            RenderCommand::SetClearColor();
-            RenderCommand::Clear();
+            float currentTime = m_Window->GetTime();
+            float deltaTime = currentTime - m_LastFrame;
 
             for (Layer* layer : m_LayerStack)
-                layer->OnUpdate();
+                layer->OnUpdate(deltaTime);
 
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)
@@ -42,6 +44,8 @@ namespace Wheel {
             m_ImGuiLayer->End();
 
             m_Window->OnUpdate();
+
+            m_LastFrame = currentTime;
         }
     }
 
