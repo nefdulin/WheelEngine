@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "RenderCommand.h"
 
 namespace Wheel {
 
@@ -9,7 +10,7 @@ namespace Wheel {
 
     void Renderer::DrawIndexed(VertexArray *va)
     {
-
+        RenderCommand::DrawIndexed(va);
     }
 
     void Renderer::EndScene()

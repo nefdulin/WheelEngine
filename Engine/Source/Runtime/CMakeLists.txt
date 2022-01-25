@@ -43,7 +43,10 @@ set(SRC_RENDERER
         Renderer/VertexArray.h
         Renderer/VertexArray.cpp
         Renderer/Buffer.h
-        Renderer/Buffer.cpp)
+        Renderer/Buffer.cpp
+        Renderer/Camera.h
+        Renderer/OrthographicCamera.cpp
+        Renderer/OrthographicCamera.h)
 
 set(SRC_PLATFORM
         Platform/OpenGL/OpenGLContext.h

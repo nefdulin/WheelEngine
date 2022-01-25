@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 include_directories(../Engine/Source/Runtime)
 include_directories(../Engine/Source/ThirdParty/spdlog/include)
 include_directories(../Engine/Source/ThirdParty/ImGui)
+include_directories(../Engine/Source/ThirdParty/glm)
 
 add_executable(Game Source/main.cpp)
 

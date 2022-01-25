@@ -46,6 +46,7 @@ namespace Wheel {
     {
         WHEEL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
+        glBindVertexArray(0);
         glBindVertexArray(m_RendererID);
         vertexBuffer->Bind();
 
