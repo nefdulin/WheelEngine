@@ -19,33 +19,6 @@ namespace Wheel {
 
         m_ImGuiLayer = std::make_shared<ImGuiLayer>();
         PushOverlay(m_ImGuiLayer.get());
-
-        std::string vertexSrc = R"(
-			#version 330 core
-
-            uniform mat4 u_MVP;
-			layout(location = 0) in vec3 a_Position;
-			void main()
-			{
-				gl_Position = u_MVP * vec4(a_Position, 1.0);
-			}
-		)";
-
-        std::string fragmentSrc = R"(
-			#version 330 core
-
-			out vec4 color;
-			void main()
-			{
-				color = vec4(1.0, 1.0, 1.0, 1.0);
-			}
-		)";
-
-        m_Shader = new Shader(vertexSrc, fragmentSrc);
-        m_Shader->Bind();
-
-
-        m_Camera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
     }
 
     Application::~Application()
@@ -55,39 +28,10 @@ namespace Wheel {
 
     void Application::Run()
     {
-
-        float vertices[] = {
- 0.5f,  0.5f, 0.0f,  // top right
- 0.5f, -0.5f, 0.0f,  // bottom right
--0.5f, -0.5f, 0.0f,  // bottom left
--0.5f,  0.5f, 0.0f   // top left 
-        };
-        unsigned int indices[] = {  // note that we start from 0!
-            0, 1, 3,  // first Triangle
-            1, 2, 3   // second Triangle
-        };
-
-        VertexArray* va = new OpenGLVertexArray();
-
-        VertexBuffer* vb = new OpenGLVertexBuffer(vertices, sizeof(vertices));
-        BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"}
-        };
-        vb->SetLayout(layout);
-        va->AddVertexBuffer(vb);
-        std::shared_ptr<IndexBuffer> ib = std::make_shared<OpenGLIndexBuffer>(indices, 6);
-        va->SetIndexBuffer(ib);
-        
-        m_Camera->SetPosition(glm::vec3(1));
         while (m_Running)
         {
             RenderCommand::SetClearColor();
             RenderCommand::Clear();
-
-            m_Shader->SetMat4("u_MVP", m_Camera->GetViewProjectionMatrix());
-            Renderer::BeginScene();
-            RenderCommand::DrawIndexed(va);
-            Renderer::EndScene();
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
@@ -97,7 +41,6 @@ namespace Wheel {
                 layer->OnImGuiRender();
             m_ImGuiLayer->End();
 
-            m_Camera->OnUpdate();
             m_Window->OnUpdate();
         }
     }

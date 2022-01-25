@@ -29,6 +29,7 @@ namespace Wheel {
 		virtual void SetRotation(glm::vec3& rotation) { m_Rotation = rotation; }
 		virtual const glm::vec3 GetRotation(glm::vec3& rotation) { return m_Rotation; }
 
+	protected:
 		virtual void CalculateViewProjectionMatrix() = 0;
 
 	protected:

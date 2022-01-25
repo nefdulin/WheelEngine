@@ -11,6 +11,8 @@ namespace Wheel {
 		OrthographicCamera(float left, float right, float bottom, float top)
 		{
 			m_ProjectionMatrix = glm::ortho(left, right, bottom, top);
+
+			CalculateViewProjectionMatrix();
 		}
 
 		void CalculateViewProjectionMatrix() override;

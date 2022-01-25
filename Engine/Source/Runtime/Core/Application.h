@@ -34,8 +34,6 @@ namespace Wheel {
         bool m_Running = true;
         LayerStack m_LayerStack;
 
-        Camera* m_Camera;
-        Shader* m_Shader;
     private:
         static Application* s_Instance;
     };

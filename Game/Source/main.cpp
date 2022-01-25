@@ -4,10 +4,80 @@
 
 class ExampleLayer : public Wheel::Layer
 {
+
+    virtual void OnAttach() override
+    {
+        std::string vertexSrc = R"(
+			#version 330 core
+
+            uniform mat4 u_MVP;
+			layout(location = 0) in vec3 a_Position;
+			void main()
+			{
+				gl_Position = u_MVP * vec4(a_Position, 1.0);
+			}
+		)";
+
+        std::string fragmentSrc = R"(
+			#version 330 core
+
+			out vec4 color;
+			void main()
+			{
+				color = vec4(1.0, 1.0, 1.0, 1.0);
+			}
+		)";
+
+        m_Shader = new Wheel::Shader(vertexSrc, fragmentSrc);
+        m_Shader->Bind();
+
+        m_Camera = new Wheel::OrthographicCamera(-2.0f, 2.0f, -2.0f, 2.0f);
+        m_Camera->SetPosition(glm::vec3(1));
+
+        float vertices[] = {
+0.5f,  0.5f, 0.0f,  // top right
+0.5f, -0.5f, 0.0f,  // bottom right
+-0.5f, -0.5f, 0.0f,  // bottom left
+-0.5f,  0.5f, 0.0f   // top left 
+        };
+        unsigned int indices[] = {  // note that we start from 0!
+            0, 1, 3,  // first Triangle
+            1, 2, 3   // second Triangle
+        };
+
+        m_VertexArray = new Wheel::OpenGLVertexArray();
+
+        Wheel::VertexBuffer* vb = new Wheel::OpenGLVertexBuffer(vertices, sizeof(vertices));
+        Wheel::BufferLayout layout = {
+            {Wheel::ShaderDataType::Float3, "a_Position"}
+        };
+        vb->SetLayout(layout);
+        m_VertexArray->AddVertexBuffer(vb);
+        std::shared_ptr<Wheel::IndexBuffer> ib = std::make_shared<Wheel::OpenGLIndexBuffer>(indices, 6);
+        m_VertexArray->SetIndexBuffer(ib);
+    }
+
     virtual void OnUpdate() override
     {
-        if (Wheel::Input::IsKeyPressed(Wheel::Key::Tab))
-            WHEEL_INFO("Tab pressed");
+        m_Shader->Bind();
+        m_Shader->SetMat4("u_MVP", m_Camera->GetViewProjectionMatrix());
+        Wheel::Renderer::BeginScene();
+        Wheel::RenderCommand::DrawIndexed(m_VertexArray);
+        Wheel::Renderer::EndScene();
+
+        m_Camera->OnUpdate();
+        if (Wheel::Input::IsKeyPressed(Wheel::Key::W))
+        {
+            glm::vec3 cameraPosition = m_Camera->GetPosition();
+            glm::vec3 newPosition{ cameraPosition.x, cameraPosition.y - 0.01, cameraPosition.z };
+            m_Camera->SetPosition(newPosition);
+        }
+        else if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
+        {
+            glm::vec3 cameraPosition = m_Camera->GetPosition();
+            glm::vec3 newPosition{ cameraPosition.x - 0.01, cameraPosition.y, cameraPosition.z };
+            m_Camera->SetPosition(newPosition);
+        }
     }
 
     virtual void OnImGuiRender() override
@@ -27,7 +97,7 @@ class ExampleLayer : public Wheel::Layer
             ImGui::EndMenuBar();
         }
 
-// Edit a color (stored as ~4 floats)
+    // Edit a color (stored as ~4 floats)
         ImGui::ColorEdit4("Color", my_color);
 
 // Plot some values
@@ -42,6 +112,11 @@ class ExampleLayer : public Wheel::Layer
         ImGui::EndChild();
         ImGui::End();
     }
+
+private:
+    Wheel::Camera * m_Camera;
+    Wheel::Shader* m_Shader;
+    Wheel::VertexArray* m_VertexArray;
 };
 
 class GameApp : public Wheel::Application
