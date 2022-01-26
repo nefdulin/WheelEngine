@@ -1,5 +1,6 @@
 #pragma once
 #include "RendererAPI.h"
+#include <glm/glm.hpp>
 
 namespace Wheel {
 
@@ -7,7 +8,7 @@ namespace Wheel {
     {
     public:
         static void Clear();
-        static void SetClearColor();
+        static void SetClearColor(const glm::vec4& color);
         static void DrawIndexed(const VertexArray* va);
     private:
         static RendererAPI* s_RendererAPI;

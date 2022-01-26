@@ -61,7 +61,7 @@ class ExampleLayer : public Wheel::Layer
     {
         WHEEL_TRACE("Current delta time is: {0}s {1}ms", deltaTime, deltaTime * 1000);
 
-        Wheel::RenderCommand::SetClearColor();
+        Wheel::RenderCommand::SetClearColor({0.09f, 0.09f, 0.12f, 1.0f});
         Wheel::RenderCommand::Clear();
 
         m_Shader->Bind();

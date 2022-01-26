@@ -1,4 +1,5 @@
 #pragma once
+#include <glm/glm.hpp>
 #include "VertexArray.h"
 
 namespace Wheel {
@@ -16,7 +17,7 @@ namespace Wheel {
         virtual ~RendererAPI() = default;
 
         virtual void Clear() = 0;
-        virtual void SetClearColor() = 0;
+        virtual void SetClearColor(const glm::vec4& color) = 0;
 
         virtual void DrawIndexed(const VertexArray* va) = 0;
 

@@ -1,11 +1,12 @@
 #include "OpenGLRendererAPI.h"
 #include <GLAD/glad.h>
+#include <glm/glm.hpp>
 
 namespace Wheel {
 
-    void OpenGLRendererAPI::SetClearColor()
+    void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
     {
-        glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+        glClearColor(color.r, color.g, color.b, color.a);
     }
 
     void OpenGLRendererAPI::Clear()

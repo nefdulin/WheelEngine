@@ -9,9 +9,9 @@ namespace Wheel {
         s_RendererAPI->Clear();
     }
 
-    void RenderCommand::SetClearColor()
+    void RenderCommand::SetClearColor(const glm::vec4& color)
     {
-        s_RendererAPI->SetClearColor();
+        s_RendererAPI->SetClearColor(color);
     }
 
     void RenderCommand::DrawIndexed(const VertexArray* va)
