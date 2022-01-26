@@ -30,7 +30,7 @@ namespace Wheel {
         inline Window& GetWindow() { return *m_Window; }
     private:
         std::unique_ptr<Window> m_Window;
-        std::shared_ptr<ImGuiLayer> m_ImGuiLayer;
+        Ref<ImGuiLayer> m_ImGuiLayer;
         bool m_Running = true;
         LayerStack m_LayerStack;
 

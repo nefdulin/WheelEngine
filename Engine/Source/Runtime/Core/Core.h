@@ -19,3 +19,13 @@
     #define WHEEL_ASSERT(expr, ...) { if (!(expr)) { WHEEL_ERROR("Assertion failed {0}", __VA_ARGS__); WHEEL_BREAKPOINT();} else {} }
     #define WHEEL_CORE_ASSERT(expr, ...) { if (!(expr)) { WHEEL_CORE_ERROR("Core Assertion failed {0}", __VA_ARGS__); WHEEL_BREAKPOINT();} else {} }
 #endif
+
+namespace Wheel {
+
+    template<typename T>
+    using Ref = std::shared_ptr<T>;
+
+    template<typename T>
+    using Scope = std::unique_ptr<T>;
+
+}
