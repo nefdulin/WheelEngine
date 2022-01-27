@@ -3,6 +3,11 @@
 
 namespace Wheel {
 
+    void Renderer::Init()
+    {
+        RenderCommand::Init();
+    }
+
     void Renderer::BeginScene()
     {
 
