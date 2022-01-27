@@ -3,7 +3,8 @@
 #include "Core/KeyCodes.h"
 #include <GLFW/glfw3.h>
 
-#ifdef WHEEL_PLATFORM_WINDOWS
+//Will add platform support later
+//#ifdef
 
 namespace Wheel {
 
@@ -16,4 +17,4 @@ namespace Wheel {
     }
 }
 
-#endif
+//#endif

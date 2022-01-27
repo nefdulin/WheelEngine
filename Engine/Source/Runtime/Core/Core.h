@@ -11,7 +11,7 @@
     #endif
 #else
     #ifdef WHEEL_PLATFORM_MAC
-        #define __builtin_trap();
+        #define WHEEL_BREAKPOINT() __builtin_trap();
     #endif
 #endif
 

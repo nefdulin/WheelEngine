@@ -39,7 +39,8 @@ class ExampleLayer : public Wheel::Layer
         m_Shader->Bind();
 
         m_Camera = new Wheel::OrthographicCamera(-2.0f, 2.0f, -2.0f, 2.0f);
-        m_Camera->SetPosition(glm::vec3(1));
+        glm::vec3 position(1.0f);
+        m_Camera->SetPosition(position);
 
         float vertices[] = {
              1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
