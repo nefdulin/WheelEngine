@@ -31,7 +31,7 @@ class ExampleLayer : public Wheel::Layer
 			out vec4 color;
 			void main()
 			{
-				color = texture(u_Texture, texCoord);
+				color = vec4(texCoord, 0.0, 1.0) * texture(u_Texture, texCoord);
 			}
 		)";
 
