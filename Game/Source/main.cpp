@@ -39,7 +39,8 @@ class ExampleLayer : public Wheel::Layer
         m_Shader->Bind();
 
         m_Camera = new Wheel::OrthographicCamera(-2.0f, 2.0f, -2.0f, 2.0f);
-        m_Camera->SetPosition(glm::vec3(1));
+        glm::vec3 position(1.0f);
+        m_Camera->SetPosition(position);
 
         float vertices[] = {
              1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
@@ -65,7 +66,7 @@ class ExampleLayer : public Wheel::Layer
         std::shared_ptr<Wheel::IndexBuffer> ib = std::make_shared<Wheel::OpenGLIndexBuffer>(indices, 6);
         m_VertexArray->SetIndexBuffer(ib);
 
-        m_Texture = Wheel::Texture2D::Create("checkboard.png");
+        m_Texture = Wheel::Texture2D::Create("container.jpeg");
         m_Texture->Bind();
 
         m_Shader->SetInt("u_Texture", 0);

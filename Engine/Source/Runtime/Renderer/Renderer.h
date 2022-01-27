@@ -9,6 +9,8 @@ namespace Wheel {
     public:
         static const RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
+        static void Init();
+
         static void BeginScene();
         static void DrawIndexed(VertexArray* va);
         static void EndScene();
