@@ -12,19 +12,26 @@ class ExampleLayer : public Wheel::Layer
 
             uniform mat4 u_MVP;
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+            out vec2 texCoord;
 			void main()
 			{
+                texCoord = a_TexCoord;
 				gl_Position = u_MVP * vec4(a_Position, 1.0);
 			}
 		)";
 
         std::string fragmentSrc = R"(
 			#version 330 core
-
+            
+            uniform sampler2D u_Texture;
+    
+            in vec2 texCoord;
 			out vec4 color;
 			void main()
 			{
-				color = vec4(1.0, 1.0, 1.0, 1.0);
+				color = texture(u_Texture, texCoord);
 			}
 		)";
 
@@ -35,10 +42,10 @@ class ExampleLayer : public Wheel::Layer
         m_Camera->SetPosition(glm::vec3(1));
 
         float vertices[] = {
-0.5f,  0.5f, 0.0f,  // top right
-0.5f, -0.5f, 0.0f,  // bottom right
--0.5f, -0.5f, 0.0f,  // bottom left
--0.5f,  0.5f, 0.0f   // top left 
+             1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
+             1.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom right
+            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // bottom left
+            -1.0f,  1.0f, 0.0f, 0.0f, 1.0f  // top left 
         };
         unsigned int indices[] = {  // note that we start from 0!
             0, 1, 3,  // first Triangle
@@ -49,23 +56,29 @@ class ExampleLayer : public Wheel::Layer
 
         Wheel::VertexBuffer* vb = new Wheel::OpenGLVertexBuffer(vertices, sizeof(vertices));
         Wheel::BufferLayout layout = {
-            {Wheel::ShaderDataType::Float3, "a_Position"}
+            {Wheel::ShaderDataType::Float3, "a_Position"},
+            {Wheel::ShaderDataType::Float2, "a_TexCoords"}
         };
         vb->SetLayout(layout);
         m_VertexArray->AddVertexBuffer(vb);
+
         std::shared_ptr<Wheel::IndexBuffer> ib = std::make_shared<Wheel::OpenGLIndexBuffer>(indices, 6);
         m_VertexArray->SetIndexBuffer(ib);
+
+        m_Texture = Wheel::Texture2D::Create("checkboard.png");
+        m_Texture->Bind();
+
+        m_Shader->SetInt("u_Texture", 0);
     }
 
     virtual void OnUpdate(float deltaTime) override
     {
-        WHEEL_TRACE("Current delta time is: {0}s {1}ms", deltaTime, deltaTime * 1000);
-
         Wheel::RenderCommand::SetClearColor({0.09f, 0.09f, 0.12f, 1.0f});
         Wheel::RenderCommand::Clear();
 
         m_Shader->Bind();
         m_Shader->SetMat4("u_MVP", m_Camera->GetViewProjectionMatrix());
+        //m_Texture->Bind();
         Wheel::Renderer::BeginScene();
         Wheel::RenderCommand::DrawIndexed(m_VertexArray);
         Wheel::Renderer::EndScene();
@@ -123,6 +136,7 @@ private:
     Wheel::Camera * m_Camera;
     Wheel::Shader* m_Shader;
     Wheel::VertexArray* m_VertexArray;
+    Wheel::Ref<Wheel::Texture> m_Texture;
 };
 
 class GameApp : public Wheel::Application

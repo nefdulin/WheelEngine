@@ -138,4 +138,9 @@ namespace Wheel {
         glUniformMatrix4fv(glGetUniformLocation(m_RendererID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
+    void OpenGLShader::SetInt(const std::string& name, const int& value) const
+    {
+        glUniform1i(glGetUniformLocation(m_RendererID, name.c_str()), value);
+    }
+
 }

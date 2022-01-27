@@ -7,6 +7,7 @@ include_directories(../ThirdParty/glfw/include)
 include_directories(../ThirdParty/glad/include)
 include_directories(../ThirdParty/ImGui)
 include_directories(../ThirdParty/glm)
+include_directories(../ThirdParty/stb_image)
 
 set(SRC_CORE
         Core/Core.h
@@ -45,6 +46,8 @@ set(SRC_RENDERER
         Renderer/Buffer.h
         Renderer/Buffer.cpp
         Renderer/Camera.h
+        Renderer/Texture.h
+        Renderer/Texture.cpp
         Renderer/OrthographicCamera.cpp
         Renderer/OrthographicCamera.h)
 
@@ -59,6 +62,8 @@ set(SRC_PLATFORM
         Platform/OpenGL/OpenGLBuffer.cpp
         Platform/OpenGL/OpenGLShader.h
         Platform/OpenGL/OpenGLShader.cpp
+        Platform/OpenGL/OpenGLTexture2D.h
+        Platform/OpenGL/OpenGLTexture2D.cpp
         Platform/Mac/MacWindow.h
         Platform/Mac/MacWindow.cpp
         Platform/Mac/MacInput.cpp)
@@ -79,12 +84,14 @@ source_group(Wheel\\\\Core FILES ${SRC_CORE})
 source_group(Wheel\\\\Event FILES ${SRC_EVENT})
 source_group(Wheel\\\\Platform FILES ${SRC_PLATFORM})
 source_group(Wheel\\\\ImGui FILES ${SRC_IMGUI})
+source_group(Wheel\\\\Renderer FILES ${SRC_RENDERER})
 
 add_library(Engine STATIC ${WHEEL_SRC})
 
 target_link_libraries(Engine  glfw)
 target_link_libraries(Engine  glad)
 target_link_libraries(Engine  imgui)
+target_link_libraries(Engine  stb_image)
 
 target_precompile_headers(Engine PRIVATE
         <iostream>
@@ -94,4 +101,5 @@ target_precompile_headers(Engine PRIVATE
         <algorithm>
         <memory>
         <sstream>
-        "Core/Log.h")
+        "Core/Log.h"
+        "Core/Core.h")

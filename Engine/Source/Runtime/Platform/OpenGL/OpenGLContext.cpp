@@ -10,7 +10,7 @@ namespace Wheel {
 
     }
 
-    void Wheel::OpenGLContext::Init()
+    void OpenGLContext::Init()
     {
         glfwMakeContextCurrent(m_WindowHandle);
 
@@ -23,7 +23,7 @@ namespace Wheel {
         WHEEL_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
     }
 
-    void Wheel::OpenGLContext::SwapBuffers()
+    void OpenGLContext::SwapBuffers()
     {
         glfwSwapBuffers(m_WindowHandle);
     }
