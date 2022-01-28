@@ -99,6 +99,7 @@ target_precompile_headers(Engine PRIVATE
         <string>
         <functional>
         <algorithm>
+        <array>
         <memory>
         <sstream>
         "Core/Log.h"

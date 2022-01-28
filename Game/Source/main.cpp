@@ -35,7 +35,9 @@ class ExampleLayer : public Wheel::Layer
 			}
 		)";
 
-        m_Shader = new Wheel::OpenGLShader(vertexSrc, fragmentSrc);
+        m_ShaderLibrary = std::make_shared<Wheel::ShaderLibrary>();
+        m_Shader = m_ShaderLibrary->Load("assets/shaders/Texture.glsl");
+
         m_Shader->Bind();
 
         m_Camera = new Wheel::OrthographicCamera(-2.0f, 2.0f, -2.0f, 2.0f);
@@ -66,7 +68,7 @@ class ExampleLayer : public Wheel::Layer
         std::shared_ptr<Wheel::IndexBuffer> ib = std::make_shared<Wheel::OpenGLIndexBuffer>(indices, 6);
         m_VertexArray->SetIndexBuffer(ib);
 
-        m_Texture = Wheel::Texture2D::Create("container.jpeg");
+        m_Texture = Wheel::Texture2D::Create("assets/textures/test.png");
         m_Texture->Bind();
 
         m_Shader->SetInt("u_Texture", 0);
@@ -135,9 +137,10 @@ class ExampleLayer : public Wheel::Layer
 
 private:
     Wheel::Camera * m_Camera;
-    Wheel::Shader* m_Shader;
+    Wheel::Ref<Wheel::Shader> m_Shader;
     Wheel::VertexArray* m_VertexArray;
     Wheel::Ref<Wheel::Texture> m_Texture;
+    Wheel::Ref<Wheel::ShaderLibrary> m_ShaderLibrary;
 };
 
 class GameApp : public Wheel::Application

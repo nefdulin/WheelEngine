@@ -4,80 +4,80 @@
 
 namespace Wheel {
 
-    OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+    static GLenum GetOpenGLShaderTypeFromShaderSourceType(ShaderSourceType type)
     {
-        // Create an empty vertex shader handle
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-        // Send the vertex shader source code to GL
-        // Note that std::string's .c_str is NULL character terminated.
-        const GLchar* source = vertexSrc.c_str();
-        glShaderSource(vertexShader, 1, &source, 0);
-
-        // Compile the vertex shader
-        glCompileShader(vertexShader);
-
-        GLint isCompiled = 0;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
+        switch (type)
         {
-            GLint maxLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-            // We don't need the shader anymore.
-            glDeleteShader(vertexShader);
-
-            WHEEL_CORE_ERROR("{0}", infoLog.data());
-            WHEEL_CORE_ASSERT(false, "Vertex shader compilation failure!");
-            return;
+            case ShaderSourceType::VERTEX:
+                return GL_VERTEX_SHADER;
+            case ShaderSourceType::PIXEL:
+                return GL_FRAGMENT_SHADER;
         }
+    }
 
-        // Create an empty fragment shader handle
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& path) :
+        m_Name(name)
+    {
+        std::string source = Shader::ReadFromFile(path);
+        ShaderSourceMap shaders = Shader::Parse(source);
+        CompileShaders(shaders);
+    }
 
-        // Send the fragment shader source code to GL
-        // Note that std::string's .c_str is NULL character terminated.
-        source = fragmentSrc.c_str();
-        glShaderSource(fragmentShader, 1, &source, 0);
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) :
+        m_Name(name)
+    {
+    }
 
-        // Compile the fragment shader
-        glCompileShader(fragmentShader);
+    OpenGLShader::~OpenGLShader()
+    {
+        glDeleteProgram(m_RendererID);
+    }
 
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
+    void OpenGLShader::CompileShaders(const ShaderSourceMap& shaders)
+    {
+        uint32_t program = glCreateProgram();
+
+        std::array<uint32_t, 2> shaderIDs;
+        uint32_t index = 0;
+        for (auto&& [key, value] : shaders)
         {
-            GLint maxLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+            // Create an empty vertex shader handle
+            GLuint shader = glCreateShader(GetOpenGLShaderTypeFromShaderSourceType(key));
 
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+            // Send the vertex shader source code to GL
+            // Note that std::string's .c_str is NULL character terminated.
+            const GLchar* source = value.c_str();
+            glShaderSource(shader, 1, &source, 0);
 
-            // We don't need the shader anymore.
-            glDeleteShader(fragmentShader);
-            // Either of them. Don't leak shaders.
-            glDeleteShader(vertexShader);
+            // Compile the vertex shader
+            glCompileShader(shader);
 
-            WHEEL_CORE_ERROR("{0}", infoLog.data());
-            WHEEL_CORE_ASSERT(false, "Fragment shader compilation failure!");
-            return;
+            GLint isCompiled = 0;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+            if (isCompiled == GL_FALSE)
+            {
+                GLint maxLength = 0;
+                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+                // The maxLength includes the NULL character
+                std::vector<GLchar> infoLog(maxLength);
+                glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+                // We don't need the shader anymore.
+                glDeleteShader(shader);
+
+                WHEEL_CORE_ERROR("{0}", infoLog.data());
+                WHEEL_CORE_ASSERT(false, "{0} Shader compilation failure!", key);
+                return;
+            }
+
+            glAttachShader(program, shader);
+            shaderIDs[index++] = shader;
         }
-
-        // Vertex and fragment shaders are successfully compiled.
-        // Now time to link them together into a program.
-        // Get a program object.
-        m_RendererID = glCreateProgram();
-        GLuint program = m_RendererID;
-
-        // Attach our shaders to our program
-        glAttachShader(program, vertexShader);
-        glAttachShader(program, fragmentShader);
 
         // Link our program
+        m_RendererID = program;
+
         glLinkProgram(program);
 
         // Note the different functions here: glGetProgram* instead of glGetShader*.
@@ -88,29 +88,23 @@ namespace Wheel {
             GLint maxLength = 0;
             glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
+            glDeleteProgram(program);
+
             // The maxLength includes the NULL character
             std::vector<GLchar> infoLog(maxLength);
             glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-
-            // We don't need the program anymore.
-            glDeleteProgram(program);
-            // Don't leak shaders either.
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
 
             WHEEL_CORE_ERROR("{0}", infoLog.data());
             WHEEL_CORE_ASSERT(false, "Shader link failure!");
             return;
         }
 
-        // Always detach shaders after a successful link.
-        glDetachShader(program, vertexShader);
-        glDetachShader(program, fragmentShader);
-    }
+        for (auto& shader : shaderIDs)
+        {
+            glDeleteShader(shader);
+            glDetachShader(program, shader);
+        }
 
-    OpenGLShader::~OpenGLShader()
-    {
-        glDeleteProgram(m_RendererID);
     }
 
     void OpenGLShader::Bind() const
