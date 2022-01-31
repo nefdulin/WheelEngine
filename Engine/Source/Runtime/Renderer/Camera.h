@@ -11,9 +11,9 @@ namespace Wheel {
 	public:
 		Camera() = default;
 
-		Camera(const glm::mat4 projection) : 
-			m_ProjectionMatrix(projection)
-		{}
+		//Camera(const glm::mat4 projection) : 
+		//	m_ProjectionMatrix(projection)
+		//{}
 
 		virtual ~Camera() = default;
 

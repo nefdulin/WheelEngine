@@ -17,6 +17,11 @@ namespace Wheel {
         glClearColor(color.r, color.g, color.b, color.a);
     }
 
+    void OpenGLRendererAPI::SetViewport(uint32_t width, uint32_t height)
+    {
+        glViewport(0, 0, width, height);
+    }
+
     void OpenGLRendererAPI::Clear()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

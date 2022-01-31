@@ -9,6 +9,7 @@ namespace Wheel {
     public:
         static void Init();
         static void Clear();
+        static void SetViewport(uint32_t width, uint32_t height);
         static void SetClearColor(const glm::vec4& color);
         static void DrawIndexed(const VertexArray* va);
     private:

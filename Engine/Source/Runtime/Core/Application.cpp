@@ -73,8 +73,9 @@ namespace Wheel {
 
     bool Application::OnWindowResize(WindowResizeEvent& e)
     {
-        WHEEL_CORE_TRACE("Window resizing");
-        return true;
+        Renderer::OnScreenResize(e.GetWidth(), e.GetHeight());
+
+        return false;
     }
 
     bool Application::OnWindowClose(WindowCloseEvent& e)
