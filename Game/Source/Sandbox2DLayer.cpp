@@ -14,11 +14,12 @@ void Sandbox2DLayer::OnDetach()
 
 void Sandbox2DLayer::OnUpdate(float deltaTime)
 {
-    Wheel::RenderCommand::SetClearColor({ 0.2f, 0.3f, 0.1f, 0.8f });
+    Wheel::RenderCommand::SetClearColor({ 0.01f, 0.01f, 0.07f, 1.0f });
     Wheel::RenderCommand::Clear();
 
     Wheel::Renderer2D::BeginScene(m_Camera);
     Wheel::Renderer2D::DrawQuad(glm::vec3(1.0f), glm::vec3(1.0f), m_GalaxyTexture);
+    Wheel::Renderer2D::DrawQuad(glm::vec3(1.0f), glm::vec3(1.0f), {1.0f, 0.2f, 0.3f, 1.0f});
     Wheel::Renderer2D::EndScene();
 
     m_Camera->OnUpdate();

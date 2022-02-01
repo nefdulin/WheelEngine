@@ -47,14 +47,14 @@ class ExampleLayer : public Wheel::Layer
         m_Camera->SetPosition(position);
 
         float vertices[] = {
-             1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
-             1.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // bottom left
-            -1.0f,  1.0f, 0.0f, 0.0f, 1.0f  // top left 
+             0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, // top right
+             0.5f,   0.5f, 0.0f, 1.0f, 1.0f, // bottom right
+            -0.5f,   0.5f, 0.0f, 0.0f, 1.0f,      // bottom left
+            -0.5f,  -0.5f, 0.0f, 0.0f, 0.0f  // top left 
         };
         unsigned int indices[] = {  // note that we start from 0!
-            0, 1, 3,  // first Triangle
-            1, 2, 3   // second Triangle
+            0, 1, 2,  // first Triangle
+            0, 2, 3   // second Triangle
         };
 
         m_VertexArray = Wheel::VertexArray::CreateVertexArray();
@@ -78,7 +78,7 @@ class ExampleLayer : public Wheel::Layer
 
     virtual void OnUpdate(float deltaTime) override
     {
-        Wheel::RenderCommand::SetClearColor({0.09f, 0.09f, 0.12f, 1.0f});
+        Wheel::RenderCommand::SetClearColor({0.01f, 0.01f, 0.07f, 1.0f});
         Wheel::RenderCommand::Clear();
 
         m_Shader->Bind();

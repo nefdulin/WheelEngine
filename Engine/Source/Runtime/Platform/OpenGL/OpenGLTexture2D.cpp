@@ -14,17 +14,15 @@ namespace Wheel {
         m_Width = width;
         m_Height = height;
 
-        GLenum internalFormat = 0;
-        GLenum dataFormat = 0;
         if (channels == 4)
         {
-            internalFormat = GL_RGBA8;
-            dataFormat = GL_RGBA;
+            m_InternalFormat = GL_RGBA8;
+            m_DataFormat = GL_RGBA;
         }
         else if (channels == 3)
         {
-            internalFormat = GL_RGB8;
-            dataFormat = GL_RGB;
+            m_InternalFormat = GL_RGB8;
+            m_DataFormat = GL_RGB;
         }
 
         // Since functions like glTextureStorage2D are not supported in openGL 4.1
@@ -41,22 +39,59 @@ namespace Wheel {
         glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
 #else
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-		glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
+        glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 #endif
         stbi_image_free(data);
 	}
+
+    OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) :
+        m_Width(width), m_Height(height)
+    {
+        m_InternalFormat = GL_RGBA8;
+        m_DataFormat = GL_RGBA;
+        
+#ifdef WHEEL_PLATFORM_MAC
+        glGenTextures(1, &m_RendererID);
+        glBindTexture(GL_TEXTURE_2D, m_RendererID);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+#else
+        glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+        glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+#endif
+    }
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		glDeleteTextures(1, &m_RendererID);
 	}
 
-	void OpenGLTexture2D::Bind(uint32_t slot) const
+    void OpenGLTexture2D::SetData(const void* data, uint32_t size)
+    {
+        uint8_t bytesPerPixel = m_InternalFormat == GL_RGBA8 ? 4 : 3;
+        WHEEL_CORE_ASSERT(size == (bytesPerPixel * m_Width * m_Height), "Parameter size is not equal to the texture's size.")
+        glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+    }
+
+    void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 #ifdef WHEEL_PLATFORM_MAC
         glActiveTexture(GL_TEXTURE0 + slot);
