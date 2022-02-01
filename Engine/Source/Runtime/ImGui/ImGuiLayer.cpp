@@ -84,7 +84,6 @@ namespace Wheel {
 
     void ImGuiLayer::OnImGuiRender()
     {
-        static bool value = true;
-        ImGui::ShowDemoWindow(&value);
+    
     }
 }

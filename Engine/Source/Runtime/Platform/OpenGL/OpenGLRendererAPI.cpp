@@ -27,7 +27,7 @@ namespace Wheel {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void OpenGLRendererAPI::DrawIndexed(const VertexArray *va)
+    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray> va)
     {
         va->Bind();
         glDrawElements(GL_TRIANGLES, va->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);

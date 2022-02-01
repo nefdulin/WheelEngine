@@ -11,6 +11,6 @@ namespace Wheel {
         virtual void SetClearColor(const glm::vec4& color) override;
         virtual void Clear() override;
 virtual
-        virtual void DrawIndexed(const VertexArray* va) override;
+        virtual void DrawIndexed(const Ref<VertexArray> va) override;
     };
 }

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <Wheel.h>
 #include <imgui.h>
+#include <Core/EntryPoint.h>
+#include "Sandbox2DLayer.h"
 
 class ExampleLayer : public Wheel::Layer
 {
@@ -40,7 +42,7 @@ class ExampleLayer : public Wheel::Layer
 
         m_Shader->Bind();
 
-        m_Camera = new Wheel::OrthographicCamera(-2.0f, 2.0f, -2.0f, 2.0f);
+        m_Camera = Wheel::CreateRef<Wheel::OrthographicCamera>(-2.0f, 2.0f, -2.0f, 2.0f);
         glm::vec3 position(1.0f);
         m_Camera->SetPosition(position);
 
@@ -55,9 +57,9 @@ class ExampleLayer : public Wheel::Layer
             1, 2, 3   // second Triangle
         };
 
-        m_VertexArray = new Wheel::OpenGLVertexArray();
+        m_VertexArray = Wheel::VertexArray::CreateVertexArray();
 
-        Wheel::VertexBuffer* vb = new Wheel::OpenGLVertexBuffer(vertices, sizeof(vertices));
+        Wheel::Ref<Wheel::VertexBuffer> vb = Wheel::VertexBuffer::CreateVertexBuffer(vertices, sizeof(vertices));
         Wheel::BufferLayout layout = {
             {Wheel::ShaderDataType::Float3, "a_Position"},
             {Wheel::ShaderDataType::Float2, "a_TexCoords"}
@@ -85,6 +87,11 @@ class ExampleLayer : public Wheel::Layer
         Wheel::Renderer::BeginScene();
         Wheel::RenderCommand::DrawIndexed(m_VertexArray);
         Wheel::Renderer::EndScene();
+
+        Wheel::Renderer2D::BeginScene(m_Camera);
+        Wheel::Renderer2D::DrawQuad(glm::vec3(1.0f), glm::vec3(0.3f), m_Texture);
+        Wheel::Renderer2D::DrawQuad(glm::vec3(0.5f), glm::vec3(0.6f), m_Texture);
+        Wheel::Renderer2D::EndScene();
 
         m_Camera->OnUpdate();
         if (Wheel::Input::IsKeyPressed(Wheel::Key::W))
@@ -136,9 +143,9 @@ class ExampleLayer : public Wheel::Layer
     }
 
 private:
-    Wheel::Camera * m_Camera;
+    Wheel::Ref<Wheel::Camera> m_Camera;
     Wheel::Ref<Wheel::Shader> m_Shader;
-    Wheel::VertexArray* m_VertexArray;
+    Wheel::Ref<Wheel::VertexArray> m_VertexArray;
     Wheel::Ref<Wheel::Texture> m_Texture;
     Wheel::Ref<Wheel::ShaderLibrary> m_ShaderLibrary;
 };
@@ -149,7 +156,8 @@ public:
     GameApp()
     {
         Wheel::Layer* layer = new ExampleLayer();
-        PushLayer(layer);
+        Wheel::Layer* l2 = new Sandbox2DLayer();
+        PushLayer(l2);
     }
 
     ~GameApp()

@@ -5,9 +5,9 @@
 #include "Core/KeyCodes.h"
 #include "Core/MouseCodes.h"
 #include "Core/Log.h"
-#include "Core/EntryPoint.h"
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Camera.h"
 #include "Renderer/OrthographicCamera.h"

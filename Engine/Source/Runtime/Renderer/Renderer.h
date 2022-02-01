@@ -13,7 +13,7 @@ namespace Wheel {
 
         static void OnScreenResize(uint32_t width, uint32_t height);
         static void BeginScene();
-        static void DrawIndexed(VertexArray* va);
+        static void DrawIndexed(const Ref<VertexArray>& va);
         static void EndScene();
     };
 }

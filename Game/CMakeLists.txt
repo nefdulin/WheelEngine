@@ -5,7 +5,10 @@ include_directories(../Engine/Source/ThirdParty/spdlog/include)
 include_directories(../Engine/Source/ThirdParty/ImGui)
 include_directories(../Engine/Source/ThirdParty/glm)
 
-add_executable(Game Source/main.cpp)
+add_executable(Game 
+        Source/Sandbox2DLayer.h
+        Source/Sandbox2DLayer.cpp
+        Source/main.cpp)
 
 target_link_libraries(Game Engine)
 

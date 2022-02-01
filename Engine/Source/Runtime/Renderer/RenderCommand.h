@@ -11,7 +11,7 @@ namespace Wheel {
         static void Clear();
         static void SetViewport(uint32_t width, uint32_t height);
         static void SetClearColor(const glm::vec4& color);
-        static void DrawIndexed(const VertexArray* va);
+        static void DrawIndexed(const Ref<VertexArray>& va);
     private:
         static RendererAPI* s_RendererAPI;
     };

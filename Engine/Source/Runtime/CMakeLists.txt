@@ -37,6 +37,8 @@ set(SRC_RENDERER
         Renderer/Renderer.cpp
         Renderer/RendererAPI.h
         Renderer/RendererAPI.cpp
+        Renderer/Renderer2D.h
+        Renderer/Renderer2D.cpp
         Renderer/RenderCommand.h
         Renderer/RenderCommand.cpp
         Renderer/Shader.h

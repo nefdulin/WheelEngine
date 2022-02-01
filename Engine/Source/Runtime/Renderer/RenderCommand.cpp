@@ -24,7 +24,7 @@ namespace Wheel {
         s_RendererAPI->SetClearColor(color);
     }
 
-    void RenderCommand::DrawIndexed(const VertexArray* va)
+    void RenderCommand::DrawIndexed(const Ref<VertexArray>& va)
     {
         s_RendererAPI->DrawIndexed(va);
     }

@@ -42,7 +42,7 @@ namespace Wheel {
         glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::AddVertexBuffer(VertexBuffer* vertexBuffer)
+    void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
     {
         WHEEL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
