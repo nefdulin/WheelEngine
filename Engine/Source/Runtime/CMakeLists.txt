@@ -104,5 +104,6 @@ target_precompile_headers(Engine PRIVATE
         <array>
         <memory>
         <sstream>
+        <unordered_map>
         "Core/Log.h"
         "Core/Core.h")
