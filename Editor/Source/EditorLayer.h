@@ -16,5 +16,7 @@ private:
 	Wheel::Ref<Wheel::Camera> m_Camera;
 	Wheel::Ref<Wheel::Texture> m_GalaxyTexture;
 	Wheel::Ref<Wheel::Framebuffer> m_Framebuffer;
+
+	glm::vec2 m_ViewportSize;
 };
 

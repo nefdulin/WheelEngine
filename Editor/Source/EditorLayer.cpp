@@ -11,6 +11,7 @@ void EditorLayer::OnAttach()
 	spec.Width = 1280;
 	spec.Height = 720;
 	m_Framebuffer = Wheel::Framebuffer::Create(spec);
+
 }
 
 void EditorLayer::OnDetach()
@@ -28,6 +29,19 @@ void EditorLayer::OnUpdate(float deltaTime)
     // Wheel::Renderer2D::DrawQuad(glm::vec3(1.0f), glm::vec3(1.0f), m_GalaxyTexture);
     Wheel::Renderer2D::DrawQuad(glm::vec3(0.0f), glm::vec3(0.1f), {1.0f, 0.2f, 0.3f, 1.0f});
     Wheel::Renderer2D::EndScene();
+
+	glm::vec3 newPosition = m_Camera->GetPosition();
+	if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
+		newPosition.x += 1.0f * deltaTime;
+	else if (Wheel::Input::IsKeyPressed(Wheel::Key::A))
+		newPosition.x -= 1.0f * deltaTime;
+
+	if (Wheel::Input::IsKeyPressed(Wheel::Key::W))
+		newPosition.y += 1.0f * deltaTime;
+	else if (Wheel::Input::IsKeyPressed(Wheel::Key::S))
+		newPosition.y -= 1.0f * deltaTime;
+
+	m_Camera->SetPosition(newPosition);
 
     m_Camera->OnUpdate();
 
@@ -98,11 +112,18 @@ void EditorLayer::OnImGuiRender()
 
 	ImGui::Begin("Settings");
 	ImGui::Text("Test");
+	ImGui::End();
 
+	ImGui::Begin("Scene");
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-	
+	ImVec2 availRegion = ImGui::GetContentRegionAvail();
+	if (m_ViewportSize != *((glm::vec2*)&availRegion))
+	{
+		m_Framebuffer->Resize((uint32_t)availRegion.x, (uint32_t)availRegion.y);
+		m_ViewportSize = { availRegion.x, availRegion.y };
+	}
 	// Flip the image
-	ImGui::Image((void*)textureID, ImVec2(1280, 720), ImVec2{0, 1}, ImVec2{1, 0});;
+	ImGui::Image((void*)textureID, {m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});;
 	ImGui::End();
 	ImGui::End();
 }
@@ -110,10 +131,13 @@ void EditorLayer::OnImGuiRender()
 void EditorLayer::OnEvent(Wheel::Event& e)
 {
     Wheel::EventDispatcher dispatcher(e);
+
     dispatcher.Dispatch<Wheel::WindowResizeEvent>(std::bind(&EditorLayer::OnScreenResize, this, std::placeholders::_1));
 }
 
 bool EditorLayer::OnScreenResize(Wheel::WindowResizeEvent& e)
 {
+	m_Framebuffer->Resize(e.GetWidth(), e.GetHeight());
+
     return false;
 }
