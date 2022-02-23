@@ -36,7 +36,7 @@ namespace Wheel {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, width, height, 0, m_DataFormat, GL_UNSIGNED_BYTE, data);
 #else
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
@@ -88,7 +88,11 @@ namespace Wheel {
     {
         uint8_t bytesPerPixel = m_InternalFormat == GL_RGBA8 ? 4 : 3;
         WHEEL_CORE_ASSERT(size == (bytesPerPixel * m_Width * m_Height), "Parameter size is not equal to the texture's size.")
+#ifdef WHEEL_PLATFORM_MAC
+        glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Width, m_Height, 0, m_DataFormat, GL_UNSIGNED_BYTE, data);
+#else
         glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+#endif
     }
 
     void OpenGLTexture2D::Bind(uint32_t slot) const
