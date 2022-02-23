@@ -19,6 +19,7 @@ endif()
 set(WHEEL_BINARY_DIR "${CMAKE_BINARY_DIR}")
 
 add_subdirectory(Engine)
+add_subdirectory(Editor)
 add_subdirectory(Game)
 
 message("LIBRARY OUTPUT: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")

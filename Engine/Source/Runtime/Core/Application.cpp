@@ -9,12 +9,12 @@ namespace Wheel {
 
     Application* Application::s_Instance = nullptr;
 
-    Application::Application()
+    Application::Application(const std::string& name, uint32_t width, uint32_t height)
     {
         WHEEL_CORE_ASSERT(s_Instance == nullptr, "An application already exists!");
         s_Instance = this;
 
-        m_Window = std::unique_ptr<Window>(Window::Create());
+        m_Window = std::unique_ptr<Window>(Window::Create({name, width, height}));
         m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
         Renderer::Init(m_Window->GetWidth(), m_Window->GetHeight());

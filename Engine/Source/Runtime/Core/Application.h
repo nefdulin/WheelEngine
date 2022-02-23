@@ -12,7 +12,7 @@ namespace Wheel {
     class Application
     {
     public:
-        Application();
+        Application(const std::string& name, uint32_t width, uint32_t height);
         virtual ~Application();
 
         void OnEvent(Event& e);

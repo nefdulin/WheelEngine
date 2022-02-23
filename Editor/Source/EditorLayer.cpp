@@ -1,9 +1,9 @@
 //#include "C:/Users/berka/Desktop/WheelEngine/Game/CMakeFiles/Game.dir/Debug/cmake_pch.hxx"
-#include "Sandbox2DLayer.h"
+#include "EditorLayer.h"
 #include "Renderer/Renderer2D.h"
 #include <imgui.h>
 
-void Sandbox2DLayer::OnAttach()
+void EditorLayer::OnAttach()
 {
     m_Camera = Wheel::CreateRef<Wheel::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
     m_GalaxyTexture = Wheel::Texture2D::Create("assets/textures/test.png");
@@ -13,12 +13,12 @@ void Sandbox2DLayer::OnAttach()
 	m_Framebuffer = Wheel::Framebuffer::Create(spec);
 }
 
-void Sandbox2DLayer::OnDetach()
+void EditorLayer::OnDetach()
 {
 
 }
 
-void Sandbox2DLayer::OnUpdate(float deltaTime)
+void EditorLayer::OnUpdate(float deltaTime)
 {
 	m_Framebuffer->Bind();
     Wheel::RenderCommand::SetClearColor({ 0.01f, 0.01f, 0.07f, 1.0f });
@@ -34,7 +34,7 @@ void Sandbox2DLayer::OnUpdate(float deltaTime)
 	m_Framebuffer->Unbind();
 }
 
-void Sandbox2DLayer::OnImGuiRender()
+void EditorLayer::OnImGuiRender()
 {
 	// Note: Switch this to true to enable dockspace
 	static bool dockspaceOpen = true;
@@ -107,13 +107,13 @@ void Sandbox2DLayer::OnImGuiRender()
 	ImGui::End();
 }
 
-void Sandbox2DLayer::OnEvent(Wheel::Event& e)
+void EditorLayer::OnEvent(Wheel::Event& e)
 {
     Wheel::EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<Wheel::WindowResizeEvent>(std::bind(&Sandbox2DLayer::OnScreenResize, this, std::placeholders::_1));
+    dispatcher.Dispatch<Wheel::WindowResizeEvent>(std::bind(&EditorLayer::OnScreenResize, this, std::placeholders::_1));
 }
 
-bool Sandbox2DLayer::OnScreenResize(Wheel::WindowResizeEvent& e)
+bool EditorLayer::OnScreenResize(Wheel::WindowResizeEvent& e)
 {
     return false;
 }
