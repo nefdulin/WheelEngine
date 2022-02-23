@@ -32,10 +32,10 @@ namespace Wheel
 		s_Data->QuadVertexArray = VertexArray::CreateVertexArray();
 
 		float vertices[] = {
-			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
-			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // bottom left
-			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f  // top left 
+			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f, 
+			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 
+			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f  
 		};
 		unsigned int indices[] = {  // note that we start from 0!
 			0, 1, 3,  // first Triangle
@@ -102,7 +102,7 @@ namespace Wheel
 	{
 		s_Data->DefaultShader->Bind();
 
-		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), scale));
+		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), scale));
 		s_Data->DefaultShader->SetFloat4("u_Color", color);
 
 		s_Data->DefaultTexture->Bind(0);

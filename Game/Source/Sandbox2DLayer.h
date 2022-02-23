@@ -10,8 +10,11 @@ class Sandbox2DLayer : public Wheel::Layer
 	virtual void OnEvent(Wheel::Event& e) override;
 
 	virtual void OnImGuiRender() override;
+	
+	bool OnScreenResize(Wheel::WindowResizeEvent& e);
 private:
 	Wheel::Ref<Wheel::Camera> m_Camera;
 	Wheel::Ref<Wheel::Texture> m_GalaxyTexture;
+	Wheel::Ref<Wheel::Framebuffer> m_Framebuffer;
 };
 

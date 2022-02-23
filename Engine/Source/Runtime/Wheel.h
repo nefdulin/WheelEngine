@@ -10,6 +10,7 @@
 #include "Renderer/Renderer2D.h"
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Camera.h"
+#include "Renderer/Framebuffer.h"
 #include "Renderer/OrthographicCamera.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"

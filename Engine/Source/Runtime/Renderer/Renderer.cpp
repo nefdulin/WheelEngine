@@ -4,8 +4,21 @@
 
 namespace Wheel {
 
-    void Renderer::Init()
+    struct RendererData
     {
+        uint32_t Width;
+        uint32_t Height;
+    };
+
+    static RendererData* s_Data = nullptr;
+
+    void Renderer::Init(uint32_t width, uint32_t height)
+    {
+        s_Data = new RendererData();
+
+        s_Data->Width = width;
+        s_Data->Height = height;
+
         RenderCommand::Init();
         Renderer2D::Init();
     }

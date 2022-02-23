@@ -17,7 +17,7 @@ namespace Wheel {
         m_Window = std::unique_ptr<Window>(Window::Create());
         m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
-        Renderer::Init();
+        Renderer::Init(m_Window->GetWidth(), m_Window->GetHeight());
 
         m_ImGuiLayer = std::make_shared<ImGuiLayer>();
         PushOverlay(m_ImGuiLayer.get());

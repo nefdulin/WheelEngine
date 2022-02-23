@@ -28,6 +28,8 @@ namespace Wheel {
 
         inline static Application& Get() { return *s_Instance; }
         inline Window& GetWindow() { return *m_Window; }
+
+        void Close() { m_Running = false;  }
     private:
         std::unique_ptr<Window> m_Window;
         Ref<ImGuiLayer> m_ImGuiLayer;

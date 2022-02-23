@@ -14,8 +14,8 @@ namespace Wheel {
 
         void OnUpdate() override;
 
-        inline uint32_t GetWidth() const override { return m_Data.width; }
-        inline uint32_t GetHeight() const override { return m_Data.height; }
+        virtual inline uint32_t GetWidth() const override { return m_Data.width; }
+        virtual inline uint32_t GetHeight() const override { return m_Data.height; }
 
         inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
         void SetVSync(bool enabled) override;

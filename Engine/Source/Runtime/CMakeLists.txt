@@ -45,6 +45,8 @@ set(SRC_RENDERER
         Renderer/Shader.cpp
         Renderer/VertexArray.h
         Renderer/VertexArray.cpp
+        Renderer/Framebuffer.h
+        Renderer/Framebuffer.cpp
         Renderer/Buffer.h
         Renderer/Buffer.cpp
         Renderer/Camera.h
@@ -53,7 +55,12 @@ set(SRC_RENDERER
         Renderer/OrthographicCamera.cpp
         Renderer/OrthographicCamera.h)
 
-set(SRC_PLATFORM
+set(SRC_PLATFORM_MAC
+        Platform/Mac/MacWindow.h
+        Platform/Mac/MacWindow.cpp
+        Platform/Mac/MacInput.cpp)
+
+set(SRC_PLATFORM_OPENGL
         Platform/OpenGL/OpenGLContext.h
         Platform/OpenGL/OpenGLContext.cpp
         Platform/OpenGL/OpenGLVertexArray.h
@@ -66,9 +73,8 @@ set(SRC_PLATFORM
         Platform/OpenGL/OpenGLShader.cpp
         Platform/OpenGL/OpenGLTexture2D.h
         Platform/OpenGL/OpenGLTexture2D.cpp
-        Platform/Mac/MacWindow.h
-        Platform/Mac/MacWindow.cpp
-        Platform/Mac/MacInput.cpp)
+        Platform/OpenGL/OpenGLFrameBuffer.h
+        Platform/OpenGL/OpenGLFrameBuffer.cpp)
 
 set(SRC_IMGUI
         ImGui/ImGuiBuild.cpp
@@ -79,12 +85,14 @@ set(WHEEL_SRC
         ${SRC_CORE}
         ${SRC_EVENT}
         ${SRC_RENDERER}
-        ${SRC_PLATFORM}
+        ${SRC_PLATFORM_MAC}
+        ${SRC_PLATFORM_OPENGL}
         ${SRC_IMGUI})
 
 source_group(Wheel\\\\Core FILES ${SRC_CORE})
 source_group(Wheel\\\\Event FILES ${SRC_EVENT})
-source_group(Wheel\\\\Platform FILES ${SRC_PLATFORM})
+source_group(Wheel\\\\Platform\\\\Mac FILES ${SRC_PLATFORM_MAC})
+source_group(Wheel\\\\Platform\\\\OpenGL FILES ${SRC_PLATFORM_OPENGL})
 source_group(Wheel\\\\ImGui FILES ${SRC_IMGUI})
 source_group(Wheel\\\\Renderer FILES ${SRC_RENDERER})
 
@@ -104,5 +112,6 @@ target_precompile_headers(Engine PRIVATE
         <array>
         <memory>
         <sstream>
+        <unordered_map>
         "Core/Log.h"
         "Core/Core.h")
