@@ -36,6 +36,7 @@ namespace Wheel {
         bool m_Running = true;
         LayerStack m_LayerStack;
 
+        bool m_Minimized;
         float m_LastFrame;
 
     private:

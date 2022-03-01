@@ -17,6 +17,8 @@ private:
 	Wheel::Ref<Wheel::Texture> m_GalaxyTexture;
 	Wheel::Ref<Wheel::Framebuffer> m_Framebuffer;
 
+	bool m_ViewportHovered = true;
+	bool m_ViewportFocused = true;
 	glm::vec2 m_ViewportSize;
 };
 

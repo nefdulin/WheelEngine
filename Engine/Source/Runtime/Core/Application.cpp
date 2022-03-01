@@ -23,6 +23,7 @@ namespace Wheel {
         PushOverlay(m_ImGuiLayer.get());
 
         m_LastFrame = 0.0f;
+        m_Minimized = false;
     }
 
     Application::~Application()
@@ -37,13 +38,16 @@ namespace Wheel {
             float currentTime = m_Window->GetTime();
             float deltaTime = currentTime - m_LastFrame;
 
-            for (Layer* layer : m_LayerStack)
-                layer->OnUpdate(deltaTime);
+            if (!m_Minimized)
+            {
+                for (Layer* layer : m_LayerStack)
+                    layer->OnUpdate(deltaTime);
 
-            m_ImGuiLayer->Begin();
-            for (Layer* layer : m_LayerStack)
-                layer->OnImGuiRender();
-            m_ImGuiLayer->End();
+                m_ImGuiLayer->Begin();
+                for (Layer* layer : m_LayerStack)
+                    layer->OnImGuiRender();
+                m_ImGuiLayer->End();
+            }
 
             m_Window->OnUpdate();
 
@@ -73,6 +77,13 @@ namespace Wheel {
 
     bool Application::OnWindowResize(WindowResizeEvent& e)
     {
+        if (e.GetWidth() == 0 || e.GetHeight() == 0)
+        {
+            m_Minimized = true;
+            return false;
+        }
+
+        m_Minimized = false;
         Renderer::OnScreenResize(e.GetWidth(), e.GetHeight());
 
         return false;

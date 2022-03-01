@@ -156,7 +156,7 @@ public:
     EditorApp(const std::string& name, uint32_t width, uint32_t height)
         : Wheel::Application(name, width, height)
     {
-        Wheel::Layer* layer = new ExampleLayer();
+        // Wheel::Layer* layer = new ExampleLayer();
         Wheel::Layer* l2 = new EditorLayer();
         PushLayer(l2);
     }

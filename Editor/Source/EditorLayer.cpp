@@ -2,6 +2,7 @@
 #include "EditorLayer.h"
 #include "Renderer/Renderer2D.h"
 #include <imgui.h>
+#include <glm/gtc/type_ptr.inl>
 
 void EditorLayer::OnAttach()
 {
@@ -10,8 +11,8 @@ void EditorLayer::OnAttach()
 	Wheel::FramebufferSpecification spec; 
 	spec.Width = 1280;
 	spec.Height = 720;
-	m_Framebuffer = Wheel::Framebuffer::Create(spec);
 
+	m_Framebuffer = Wheel::Framebuffer::Create(spec);
 }
 
 void EditorLayer::OnDetach()
@@ -30,18 +31,21 @@ void EditorLayer::OnUpdate(float deltaTime)
     Wheel::Renderer2D::DrawQuad(glm::vec3(0.0f), glm::vec3(0.1f), {1.0f, 0.2f, 0.3f, 1.0f});
     Wheel::Renderer2D::EndScene();
 
-	glm::vec3 newPosition = m_Camera->GetPosition();
-	if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
-		newPosition.x += 1.0f * deltaTime;
-	else if (Wheel::Input::IsKeyPressed(Wheel::Key::A))
-		newPosition.x -= 1.0f * deltaTime;
+	if (m_ViewportFocused && m_ViewportHovered)
+	{
+		glm::vec3 newPosition = m_Camera->GetPosition();
+		if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
+			newPosition.x += 1.0f * deltaTime;
+		else if (Wheel::Input::IsKeyPressed(Wheel::Key::A))
+			newPosition.x -= 1.0f * deltaTime;
 
-	if (Wheel::Input::IsKeyPressed(Wheel::Key::W))
-		newPosition.y += 1.0f * deltaTime;
-	else if (Wheel::Input::IsKeyPressed(Wheel::Key::S))
-		newPosition.y -= 1.0f * deltaTime;
+		if (Wheel::Input::IsKeyPressed(Wheel::Key::W))
+			newPosition.y += 1.0f * deltaTime;
+		else if (Wheel::Input::IsKeyPressed(Wheel::Key::S))
+			newPosition.y -= 1.0f * deltaTime;
 
-	m_Camera->SetPosition(newPosition);
+		m_Camera->SetPosition(newPosition);
+	}
 
     m_Camera->OnUpdate();
 
@@ -110,13 +114,22 @@ void EditorLayer::OnImGuiRender()
 		ImGui::EndMenuBar();
 	}
 
+	glm::vec3 testVec{ 0 };
 	ImGui::Begin("Settings");
 	ImGui::Text("Test");
+
+	ImGui::InputFloat3("Square Color", glm::value_ptr(testVec));
 	ImGui::End();
 
-	ImGui::Begin("Scene");
+	//ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+	ImGui::Begin("Viewport");
+
+	m_ViewportFocused = ImGui::IsWindowFocused();
+	m_ViewportHovered = ImGui::IsWindowHovered();
+
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImVec2 availRegion = ImGui::GetContentRegionAvail();
+
 	if (m_ViewportSize != *((glm::vec2*)&availRegion))
 	{
 		m_Framebuffer->Resize((uint32_t)availRegion.x, (uint32_t)availRegion.y);
@@ -125,6 +138,8 @@ void EditorLayer::OnImGuiRender()
 	// Flip the image
 	ImGui::Image((void*)textureID, {m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});;
 	ImGui::End();
+	//ImGui::PopStyleVar();
+
 	ImGui::End();
 }
 
@@ -137,7 +152,5 @@ void EditorLayer::OnEvent(Wheel::Event& e)
 
 bool EditorLayer::OnScreenResize(Wheel::WindowResizeEvent& e)
 {
-	m_Framebuffer->Resize(e.GetWidth(), e.GetHeight());
-
     return false;
 }
