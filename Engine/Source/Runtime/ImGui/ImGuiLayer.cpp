@@ -84,6 +84,10 @@ namespace Wheel {
 
     void ImGuiLayer::OnImGuiRender()
     {
-    
+        
+    }
+
+    void ImGuiLayer::OnEvent(Event& e)
+    {
     }
 }

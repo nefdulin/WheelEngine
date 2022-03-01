@@ -121,7 +121,7 @@ void EditorLayer::OnImGuiRender()
 	ImGui::InputFloat3("Square Color", glm::value_ptr(testVec));
 	ImGui::End();
 
-	//ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	ImGui::Begin("Viewport");
 
 	m_ViewportFocused = ImGui::IsWindowFocused();
@@ -138,7 +138,7 @@ void EditorLayer::OnImGuiRender()
 	// Flip the image
 	ImGui::Image((void*)textureID, {m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});;
 	ImGui::End();
-	//ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
 
 	ImGui::End();
 }

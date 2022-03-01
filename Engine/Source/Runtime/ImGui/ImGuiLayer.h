@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Layer.h"
+#include "Events/ApplicationEvent.h"
 
 namespace Wheel {
 
@@ -13,6 +14,7 @@ namespace Wheel {
         virtual void OnDetach() override;
 
         virtual void OnImGuiRender() override;
+        virtual void OnEvent(Event& event) override;
 
         void Begin();
         void End();
