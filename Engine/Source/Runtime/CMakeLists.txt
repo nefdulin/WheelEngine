@@ -8,6 +8,7 @@ include_directories(../ThirdParty/glad/include)
 include_directories(../ThirdParty/ImGui)
 include_directories(../ThirdParty/glm)
 include_directories(../ThirdParty/stb_image)
+include_directories(../ThirdParty/entt/single_include)
 
 set(SRC_CORE
         Core/Core.h

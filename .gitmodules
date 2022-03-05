@@ -10,3 +10,6 @@
 [submodule "Engine/Source/ThirdParty/glm"]
 	path = Engine/Source/ThirdParty/glm
 	url = https://github.com/g-truc/glm
+[submodule "Engine/Source/ThirdParty/entt"]
+	path = Engine/Source/ThirdParty/entt
+	url = https://github.com/skypjack/entt
