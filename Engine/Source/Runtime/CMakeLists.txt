@@ -82,13 +82,21 @@ set(SRC_IMGUI
         ImGui/ImGuiLayer.h
         ImGui/ImGuiLayer.cpp)
 
+set(SRC_SCENE
+        Scene/Components.h
+        Scene/Scene.h
+        Scene/Scene.cpp
+        Scene/Entity.h
+        Scene/Entity.cpp)
+
 set(WHEEL_SRC
         ${SRC_CORE}
         ${SRC_EVENT}
         ${SRC_RENDERER}
         ${SRC_PLATFORM_MAC}
         ${SRC_PLATFORM_OPENGL}
-        ${SRC_IMGUI})
+        ${SRC_IMGUI}
+        ${SRC_SCENE})
 
 source_group(Wheel\\\\Core FILES ${SRC_CORE})
 source_group(Wheel\\\\Event FILES ${SRC_EVENT})

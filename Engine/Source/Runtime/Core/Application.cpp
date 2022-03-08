@@ -7,52 +7,8 @@
 #include <entt/entt.hpp>
 #include <glm/glm.hpp>
 
+
 namespace Wheel {
-
-    struct TransformComponent
-    {
-        TransformComponent() = default;
-
-        TransformComponent(glm::mat4 transform) :
-            Transform(transform)
-        {
-        }
-
-        operator glm::mat4&() { return Transform; }
-
-        glm::mat4 Transform;
-    };
-
-    class Entity
-    {
-    public:
-        Entity(entt::entity id) :
-            m_Id(id)
-        {
-
-        }
-
-        template<typename T>
-        void AddComponent()
-        {
-
-        }
-
-    private:
-        Scene* m_Scene;
-        entt::entity m_Id;
-    };
-
-    class Scene
-    {
-        Entity CreateEntity()
-        {
-            return Entity(m_Registry.create());
-        }
-
-    private:
-        entt::registry m_Registry;
-    };
 
     Application* Application::s_Instance = nullptr;
 

@@ -85,7 +85,7 @@ namespace Wheel
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& color)
 	{
-
+        Renderer2D::DrawQuad(glm::vec3(position, 1.0f), color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec3& scale)
@@ -125,5 +125,19 @@ namespace Wheel
 		
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
+
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+    {
+        s_Data->DefaultShader->Bind();
+        s_Data->QuadVertexArray->Bind();
+
+        s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * transform);
+        s_Data->DefaultShader->SetFloat4("u_Color", color);
+
+        s_Data->DefaultTexture->Bind(0);
+        s_Data->DefaultShader->SetInt("u_Texture", 0);
+
+        RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+    }
 
 }

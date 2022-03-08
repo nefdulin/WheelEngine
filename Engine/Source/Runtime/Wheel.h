@@ -6,6 +6,10 @@
 #include "Core/MouseCodes.h"
 #include "Core/Log.h"
 
+#include "Scene/Scene.h"
+#include "Scene/Components.h"
+#include "Scene/Entity.h"
+
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include "Renderer/RenderCommand.h"

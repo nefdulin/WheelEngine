@@ -4,6 +4,7 @@ include_directories(../Engine/Source/Runtime)
 include_directories(../Engine/Source/ThirdParty/spdlog/include)
 include_directories(../Engine/Source/ThirdParty/ImGui)
 include_directories(../Engine/Source/ThirdParty/glm)
+include_directories(../Engine/Source/ThirdParty/entt/single_include)
 
 add_executable(Editor 
         Source/EditorLayer.h
