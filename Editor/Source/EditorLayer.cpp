@@ -7,7 +7,7 @@
 namespace Wheel {
     void EditorLayer::OnAttach()
     {
-        m_Camera = Wheel::CreateRef<Wheel::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
+        //m_Camera = Wheel::CreateRef<Wheel::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
         m_GalaxyTexture = Wheel::Texture2D::Create("assets/textures/test.png");
         Wheel::FramebufferSpecification spec;
         spec.Width = 1280;
@@ -18,8 +18,14 @@ namespace Wheel {
         m_Entity = CreateRef<Entity>(m_Scene->CreateEntity("GreenSquare"));
 
         m_Entity->AddComponent<SpriteRendererComponent>(glm::vec4{0.3f, 0.8f, 0.2f, 1.0f});
-        m_Entity->GetComponent<TransformComponent>().Position = glm::vec3(0.0f);
-        m_Entity->GetComponent<TransformComponent>().Scale = glm::vec3(0.2f);
+        m_Entity->GetComponent<TransformComponent>().Position = glm::vec3(0.0f, 0.0f, -1.0f);
+        m_Entity->GetComponent<TransformComponent>().Scale = glm::vec3(0.5f);
+
+        /*m_RedEntity = CreateRef<Entity>(m_Scene->CreateEntity("RedSquare"));
+        m_RedEntity->AddComponent<SpriteRendererComponent>(glm::vec4{0.9f, 0.1f, 0.1f, 1.0f});*/
+
+        m_CameraEntity = CreateRef<Entity>(m_Scene->CreateEntity("MainCamera"));
+        m_CameraEntity->AddComponent<CameraComponent>();
 
         m_Framebuffer = Wheel::Framebuffer::Create(spec);
     }
@@ -31,31 +37,18 @@ namespace Wheel {
 
     void EditorLayer::OnUpdate(float deltaTime)
     {
+        if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+                m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
+                (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
+        {
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
+            m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        }
+
         m_Framebuffer->Bind();
         Wheel::RenderCommand::SetClearColor({ 0.01f, 0.01f, 0.07f, 1.0f });
         Wheel::RenderCommand::Clear();
-
-        Wheel::Renderer2D::BeginScene(m_Camera);
-        // Wheel::Renderer2D::DrawQuad(glm::vec3(1.0f), glm::vec3(1.0f), m_GalaxyTexture);
-        //Wheel::Renderer2D::DrawQuad(glm::vec3(0.0f), glm::vec3(0.1f), {1.0f, 0.2f, 0.3f, 1.0f});
-
-        Wheel::Renderer2D::EndScene();
-
-        if (m_ViewportFocused && m_ViewportHovered)
-        {
-            glm::vec3 newPosition = m_Camera->GetPosition();
-            if (Wheel::Input::IsKeyPressed(Wheel::Key::D))
-                newPosition.x += 1.0f * deltaTime;
-            else if (Wheel::Input::IsKeyPressed(Wheel::Key::A))
-                newPosition.x -= 1.0f * deltaTime;
-
-            if (Wheel::Input::IsKeyPressed(Wheel::Key::W))
-                newPosition.y += 1.0f * deltaTime;
-            else if (Wheel::Input::IsKeyPressed(Wheel::Key::S))
-                newPosition.y -= 1.0f * deltaTime;
-
-            m_Camera->SetPosition(newPosition);
-        }
 
         m_Scene->OnUpdate(deltaTime);
 
@@ -143,12 +136,8 @@ namespace Wheel {
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImVec2 availRegion = ImGui::GetContentRegionAvail();
+        m_ViewportSize = { availRegion.x, availRegion.y };
 
-        if (m_ViewportSize != *((glm::vec2*)&availRegion))
-        {
-            m_Framebuffer->Resize((uint32_t)availRegion.x, (uint32_t)availRegion.y);
-            m_ViewportSize = { availRegion.x, availRegion.y };
-        }
         // Flip the image
         ImGui::Image((void*)textureID, {m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});;
         ImGui::End();

@@ -4,6 +4,7 @@
 #include "RenderCommand.h"
 
 #include "glm/ext/matrix_transform.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Wheel
 {
@@ -75,8 +76,15 @@ namespace Wheel
 	{
 		s_Data->DefaultShader->Bind();
 
-		s_Data->CameraBuffer->ViewProjection = camera->GetViewProjectionMatrix();
+		//s_Data->CameraBuffer->ViewProjection = camera->GetViewProjectionMatrix();
 	}
+
+    void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+    {
+        s_Data->DefaultShader->Bind();
+
+        s_Data->CameraBuffer->ViewProjection = camera.GetProjectionMatrix() * glm::inverse(transform);
+    }
 
 	void Renderer2D::EndScene()
 	{

@@ -19,6 +19,8 @@ namespace Wheel {
         Ref<Wheel::Framebuffer> m_Framebuffer;
         Ref<Scene> m_Scene;
         Ref<Entity> m_Entity;
+        Ref<Entity> m_RedEntity;
+        Ref<Entity> m_CameraEntity;
 
         bool m_ViewportHovered = true;
         bool m_ViewportFocused = true;

@@ -11,6 +11,7 @@ namespace Wheel {
 		static void Shutdown();
 
 		static void BeginScene(const Ref<Camera>& camera);
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void EndScene();
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& scale);

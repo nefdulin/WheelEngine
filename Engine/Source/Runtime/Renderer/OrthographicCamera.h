@@ -15,7 +15,7 @@ namespace Wheel {
 			CalculateViewProjectionMatrix();
 		}
 
-		void CalculateViewProjectionMatrix() override;
+		void CalculateViewProjectionMatrix() ;
 	};
 
 }
