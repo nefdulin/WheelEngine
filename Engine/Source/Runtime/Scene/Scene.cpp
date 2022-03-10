@@ -11,7 +11,8 @@ namespace Wheel {
 
     Entity Scene::CreateEntity(const std::string& name)
     {
-        Entity entity = { m_Registry.create(), name, this };
+        entt::entity handle = m_Registry.create();
+        Entity entity = { handle, name, this };
 
         entity.AddComponent<TransformComponent>();
         return entity;
@@ -19,6 +20,22 @@ namespace Wheel {
 
     void Scene::OnUpdate(float deltaTime)
     {
+        // TODO: Move this to Scene::OnScenePlayStart
+        {
+            m_Registry.view<NativeScriptComponent>().each([=](auto entity, NativeScriptComponent& component)
+            {
+                if (!component.Instance)
+                {
+                    component.Instance = component.InstantiateScript();
+                    // TODO: Make m_Entity a pointer, hold all the entities inside a map
+                    component.Instance->m_Entity = Entity{entity, this};
+                    component.Instance->OnCreate();
+                }
+
+                component.Instance->OnUpdate(deltaTime);
+            });
+        }
+
         Camera* mainCamera = nullptr;
         glm::mat4 cameraTransform;
         {

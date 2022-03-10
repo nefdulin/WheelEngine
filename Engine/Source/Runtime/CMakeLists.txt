@@ -88,6 +88,7 @@ set(SRC_SCENE
         Scene/Scene.cpp
         Scene/Entity.h
         Scene/Entity.cpp
+        Scene/ScriptableEntity.h
         Scene/SceneCamera.h
         Scene/SceneCamera.cpp)
 

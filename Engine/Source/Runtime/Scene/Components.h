@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "SceneCamera.h"
+#include "ScriptableEntity.h"
 
 namespace Wheel {
 
@@ -44,6 +45,25 @@ namespace Wheel {
         CameraComponent(const CameraComponent& other) = default;
 
         SceneCamera Camera;
+    };
+
+    struct NativeScriptComponent
+    {
+        ScriptableEntity*(*InstantiateScript)();
+        void (*DestroyScript)(NativeScriptComponent*);
+
+        template<typename T>
+        void Bind()
+        {
+            InstantiateScript = []()
+            {
+                return static_cast<ScriptableEntity*>(new T());
+            };
+
+            DestroyScript = [](NativeScriptComponent* component) { delete component->Instance; component->Instance = nullptr; };
+        }
+
+        ScriptableEntity* Instance = nullptr;
     };
 
 }

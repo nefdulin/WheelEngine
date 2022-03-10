@@ -5,6 +5,21 @@
 #include <glm/gtc/type_ptr.inl>
 
 namespace Wheel {
+
+    class CameraController : public ScriptableEntity
+    {
+    public:
+        virtual void OnCreate() override
+        {
+            WHEEL_INFO("CameraController::OnCreate called");
+        }
+
+        virtual void OnUpdate(float deltaTime)
+        {
+            WHEEL_INFO("CameraController::OnUpdate called");
+        }
+    };
+
     void EditorLayer::OnAttach()
     {
         //m_Camera = Wheel::CreateRef<Wheel::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
@@ -23,6 +38,8 @@ namespace Wheel {
 
         /*m_RedEntity = CreateRef<Entity>(m_Scene->CreateEntity("RedSquare"));
         m_RedEntity->AddComponent<SpriteRendererComponent>(glm::vec4{0.9f, 0.1f, 0.1f, 1.0f});*/
+
+        m_Entity->AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
         m_CameraEntity = CreateRef<Entity>(m_Scene->CreateEntity("MainCamera"));
         m_CameraEntity->AddComponent<CameraComponent>();

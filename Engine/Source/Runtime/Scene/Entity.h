@@ -7,6 +7,7 @@ namespace Wheel
     {
     public:
         Entity() = default;
+        Entity(entt::entity handle, Scene* scene);
         Entity(entt::entity handle, const std::string& name, Scene* scene);
         Entity(const Entity& other) = default;
 
