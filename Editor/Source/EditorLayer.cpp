@@ -16,7 +16,17 @@ namespace Wheel {
 
         virtual void OnUpdate(float deltaTime)
         {
-            WHEEL_INFO("CameraController::OnUpdate called");
+            auto& transform = GetComponent<TransformComponent>();
+
+            if (Input::IsKeyPressed(Key::D))
+                transform.Position += glm::vec3(0.1f, 0.0f, 0.0f);
+            else if (Input::IsKeyPressed(Key::A))
+                transform.Position += glm::vec3(-0.1f, 0.0f, 0.0f);
+
+            if (Input::IsKeyPressed(Key::W))
+                transform.Position += glm::vec3(0.0f, 0.1f, 0.0f);
+            else if (Input::IsKeyPressed(Key::S))
+                transform.Position += glm::vec3(0.0f, -0.1f, 0.0f);
         }
     };
 
@@ -30,20 +40,19 @@ namespace Wheel {
 
         m_Scene = CreateRef<Scene>();
 
-        m_Entity = CreateRef<Entity>(m_Scene->CreateEntity("GreenSquare"));
+        m_Entity = m_Scene->CreateEntity("GreenSquare");
 
         m_Entity->AddComponent<SpriteRendererComponent>(glm::vec4{0.3f, 0.8f, 0.2f, 1.0f});
         m_Entity->GetComponent<TransformComponent>().Position = glm::vec3(0.0f, 0.0f, -1.0f);
         m_Entity->GetComponent<TransformComponent>().Scale = glm::vec3(0.5f);
 
-        /*m_RedEntity = CreateRef<Entity>(m_Scene->CreateEntity("RedSquare"));
-        m_RedEntity->AddComponent<SpriteRendererComponent>(glm::vec4{0.9f, 0.1f, 0.1f, 1.0f});*/
-
-        m_Entity->AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
-        m_CameraEntity = CreateRef<Entity>(m_Scene->CreateEntity("MainCamera"));
+        m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
         m_CameraEntity->AddComponent<CameraComponent>();
+        // TODO: Refactor this to: m_Camera->AddComponent<CameraController>();
+        m_CameraEntity->AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
+        m_SceneHierarchyPanel = CreateRef<SceneHierarchyPanel>(m_Scene);
+        m_SceneInspectorPanel = CreateRef<SceneInspectorPanel>();
         m_Framebuffer = Wheel::Framebuffer::Create(spec);
     }
 
@@ -134,16 +143,10 @@ namespace Wheel {
             ImGui::EndMenuBar();
         }
 
-        glm::vec3 testVec{ 0 };
-        ImGui::Begin("Settings");
-        ImGui::Text("Test");
+        m_SceneHierarchyPanel->OnImGuiRender();
+        m_SceneInspectorPanel->OnImGuiRender();
 
-        TransformComponent& transform = m_Entity->GetComponent<TransformComponent>();
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(m_Entity->GetComponent<SpriteRendererComponent>().Color));
-        ImGui::InputFloat3("Position", glm::value_ptr(transform.Position));
-        ImGui::InputFloat3("Rotation", glm::value_ptr(transform.Rotation));
-        ImGui::InputFloat3("Scale", glm::value_ptr(transform.Scale));
-        ImGui::End();
+        m_SceneInspectorPanel->SetSelectedEntity(m_SceneHierarchyPanel->GetSelectedEntity());
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");

@@ -49,15 +49,17 @@ namespace Wheel {
 
     struct NativeScriptComponent
     {
-        ScriptableEntity*(*InstantiateScript)();
+        ScriptableEntity*(*InstantiateScript)(Entity& entity);
         void (*DestroyScript)(NativeScriptComponent*);
 
         template<typename T>
         void Bind()
         {
-            InstantiateScript = []()
+            InstantiateScript = [](Entity& e)
             {
-                return static_cast<ScriptableEntity*>(new T());
+                auto scriptableEntity = static_cast<ScriptableEntity*>(new T());
+                scriptableEntity->SetEntity(e);
+                return scriptableEntity;
             };
 
             DestroyScript = [](NativeScriptComponent* component) { delete component->Instance; component->Instance = nullptr; };

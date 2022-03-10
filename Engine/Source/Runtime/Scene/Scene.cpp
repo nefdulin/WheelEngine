@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Components.h"
 #include "Renderer/Renderer2D.h"
+#include "unordered_map"
 
 namespace Wheel {
 
@@ -9,26 +10,31 @@ namespace Wheel {
     {
     }
 
-    Entity Scene::CreateEntity(const std::string& name)
+    Ref<Entity> Scene::CreateEntity(const std::string& name)
     {
         entt::entity handle = m_Registry.create();
-        Entity entity = { handle, name, this };
+        Ref<Entity> entity = CreateRef<Entity>(handle, name, this);
+        m_EntityMap.emplace(std::make_pair(handle, entity));
 
-        entity.AddComponent<TransformComponent>();
+        entity->AddComponent<TransformComponent>();
         return entity;
+    }
+
+    Entity& Scene::GetEntityFromEntityHandle(entt::entity handle)
+    {
+        WHEEL_CORE_ASSERT(m_EntityMap.find(handle) != m_EntityMap.end(), "Can't find entity inside entity map");
+        return *(m_EntityMap.find(handle)->second);
     }
 
     void Scene::OnUpdate(float deltaTime)
     {
         // TODO: Move this to Scene::OnScenePlayStart
         {
-            m_Registry.view<NativeScriptComponent>().each([=](auto entity, NativeScriptComponent& component)
+            m_Registry.view<NativeScriptComponent>().each([=](auto handle, NativeScriptComponent& component)
             {
                 if (!component.Instance)
                 {
-                    component.Instance = component.InstantiateScript();
-                    // TODO: Make m_Entity a pointer, hold all the entities inside a map
-                    component.Instance->m_Entity = Entity{entity, this};
+                    component.Instance = component.InstantiateScript(GetEntityFromEntityHandle(handle));
                     component.Instance->OnCreate();
                 }
 

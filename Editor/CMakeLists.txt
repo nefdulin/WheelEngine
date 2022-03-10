@@ -9,6 +9,10 @@ include_directories(../Engine/Source/ThirdParty/entt/single_include)
 add_executable(Editor 
         Source/EditorLayer.h
         Source/EditorLayer.cpp
+        Source/Panels/SceneHierarchyPanel.h
+        Source/Panels/SceneHierarchyPanel.cpp
+        Source/Panels/SceneInspectorPanel.h
+        Source/Panels/SceneInspectorPanel.cpp
         Source/main.cpp)
 
 target_link_libraries(Editor Engine)
