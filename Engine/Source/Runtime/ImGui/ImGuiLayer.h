@@ -16,6 +16,7 @@ namespace Wheel {
         virtual void OnImGuiRender() override;
         virtual void OnEvent(Event& event) override;
 
+        void SetDarkThemeColors();
         void Begin();
         void End();
     private:

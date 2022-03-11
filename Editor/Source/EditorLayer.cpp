@@ -40,12 +40,6 @@ namespace Wheel {
 
         m_Scene = CreateRef<Scene>();
 
-        m_Entity = m_Scene->CreateEntity("GreenSquare");
-
-        m_Entity->AddComponent<SpriteRendererComponent>(glm::vec4{0.3f, 0.8f, 0.2f, 1.0f});
-        m_Entity->GetComponent<TransformComponent>().Position = glm::vec3(0.0f, 0.0f, -1.0f);
-        m_Entity->GetComponent<TransformComponent>().Scale = glm::vec3(0.5f);
-
         m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
         m_CameraEntity->AddComponent<CameraComponent>();
         // TODO: Refactor this to: m_Camera->AddComponent<CameraController>();
@@ -144,9 +138,9 @@ namespace Wheel {
         }
 
         m_SceneHierarchyPanel->OnImGuiRender();
-        m_SceneInspectorPanel->OnImGuiRender();
 
         m_SceneInspectorPanel->SetSelectedEntity(m_SceneHierarchyPanel->GetSelectedEntity());
+        m_SceneInspectorPanel->OnImGuiRender();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");

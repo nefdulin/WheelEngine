@@ -1,5 +1,7 @@
 #pragma once
 #include <entt/entt.hpp>
+// TODO: Why do i have to include this? This is already included with pch.
+#include "Core/Core.h"
 
 namespace Wheel {
 
@@ -14,6 +16,8 @@ namespace Wheel {
 
         Ref<Entity> CreateEntity(const std::string& name);
         void OnUpdate(float deltaTime);
+
+        void DestroyEntity(Entity& entity);
 
         Entity& GetEntityFromEntityHandle(entt::entity handle);
 

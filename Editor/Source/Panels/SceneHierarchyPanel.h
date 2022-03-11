@@ -1,4 +1,7 @@
 #pragma once
+
+#include <Scene/Scene.h>
+
 #include "Wheel.h"
 
 namespace Wheel {
@@ -18,5 +21,4 @@ namespace Wheel {
         Ref<Scene> m_Context;
         Entity* m_SelectedEntity;
     };
-
 }

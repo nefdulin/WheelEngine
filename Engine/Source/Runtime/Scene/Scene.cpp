@@ -20,6 +20,12 @@ namespace Wheel {
         return entity;
     }
 
+    void Scene::DestroyEntity(Entity& entity)
+    {
+        m_Registry.destroy(entity.GetHandle());
+        m_EntityMap.erase(entity.GetHandle());
+    }
+
     Entity& Scene::GetEntityFromEntityHandle(entt::entity handle)
     {
         WHEEL_CORE_ASSERT(m_EntityMap.find(handle) != m_EntityMap.end(), "Can't find entity inside entity map");

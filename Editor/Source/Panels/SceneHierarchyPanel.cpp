@@ -30,6 +30,15 @@ namespace Wheel {
         if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
             m_SelectedEntity = nullptr;
 
+        // Right-click on blank space
+        if (ImGui::BeginPopupContextWindow(0, 1, false))
+        {
+            if (ImGui::MenuItem("Create Empty Entity"))
+                m_Context->CreateEntity("Empty Entity");
+
+            ImGui::EndPopup();
+        }
+
         ImGui::End();
     }
 
@@ -37,10 +46,20 @@ namespace Wheel {
     {
         ImGuiTreeNodeFlags flags = ((m_SelectedEntity != nullptr && *m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0 )
                 | ImGuiTreeNodeFlags_OpenOnArrow;
+        flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
         bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t) entity, flags, entity.GetName().c_str());
 
         if (ImGui::IsItemClicked())
             m_SelectedEntity = &entity;
+
+        bool entityDeleted = false;
+        if (ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::MenuItem("Delete Entity"))
+                entityDeleted = true;
+
+            ImGui::EndPopup();
+        }
 
         if (opened)
         {
@@ -51,6 +70,13 @@ namespace Wheel {
                 ImGui::TreePop();
 
             ImGui::TreePop();
+        }
+
+        if (entityDeleted)
+        {
+            m_Context->DestroyEntity(entity);
+            if (*m_SelectedEntity == entity)
+                m_SelectedEntity = nullptr;
         }
     }
 }

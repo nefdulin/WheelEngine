@@ -85,11 +85,11 @@ set(SRC_IMGUI
 set(SRC_SCENE
         Scene/Components.h
         Scene/Scene.h
-        Scene/Scene.cpp
         Scene/Entity.h
-        Scene/Entity.cpp
         Scene/ScriptableEntity.h
         Scene/SceneCamera.h
+        Scene/Scene.cpp
+        Scene/Entity.cpp
         Scene/SceneCamera.cpp)
 
 set(WHEEL_SRC

@@ -44,6 +44,8 @@ namespace Wheel
         const std::string& GetName() const { return m_Name; }
         std::string& GetName() { return m_Name; }
 
+        const entt::entity& GetHandle() const { return m_Handle; }
+
         operator uint32_t() const { return (uint32_t) m_Handle; }
         bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
 
