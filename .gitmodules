@@ -7,9 +7,13 @@
 [submodule "Engine/Source/ThirdParty/ImGui"]
 	path = Engine/Source/ThirdParty/ImGui
 	url = https://github.com/nefdulin/imgui
+	branch = docking
 [submodule "Engine/Source/ThirdParty/glm"]
 	path = Engine/Source/ThirdParty/glm
 	url = https://github.com/g-truc/glm
 [submodule "Engine/Source/ThirdParty/entt"]
 	path = Engine/Source/ThirdParty/entt
 	url = https://github.com/skypjack/entt
+[submodule "Engine/Source/ThirdParty/ImGuizmo"]
+	path = Engine/Source/ThirdParty/ImGuizmo
+	url = https://github.com/nefdulin/ImGuizmo

@@ -9,6 +9,7 @@ include_directories(../ThirdParty/ImGui)
 include_directories(../ThirdParty/glm)
 include_directories(../ThirdParty/stb_image)
 include_directories(../ThirdParty/entt/single_include)
+include_directories(../ThirdParty/imguizmo)
 
 set(SRC_CORE
         Core/Core.h
@@ -114,6 +115,7 @@ target_link_libraries(Engine  glfw)
 target_link_libraries(Engine  glad)
 target_link_libraries(Engine  imgui)
 target_link_libraries(Engine  stb_image)
+target_link_libraries(Engine  imguizmo)
 
 target_precompile_headers(Engine PRIVATE
         <iostream>
