@@ -48,6 +48,7 @@ namespace Wheel
 
         operator uint32_t() const { return (uint32_t) m_Handle; }
         bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
+        //operator bool() { return m_Handle != entt::null; }
 
     private:
         entt::entity m_Handle {entt::null};

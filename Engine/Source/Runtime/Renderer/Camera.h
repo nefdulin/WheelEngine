@@ -6,6 +6,12 @@
 
 namespace Wheel {
 
+    enum class ProjectionType
+    {
+        Perspective = 0,
+        Orthographic = 1
+    };
+
 	class Camera
 	{
 	public:

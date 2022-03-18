@@ -18,9 +18,10 @@ namespace Wheel {
 
         glm::mat4 GetTransform() const
         {
+            glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
+
             return glm::translate(glm::mat4(1.0f), Position)
-                * glm::rotate(glm::mat4(1.0f), glm::radians(Rotation.x), glm::vec3(0.0f, 0.0f, 1.0f))
-                * glm::scale(glm::mat4(1.0f), Scale);
+                   * rotation;
         }
 
         glm::vec3 Position  = {0.0f, 0.0f, 0.0f};

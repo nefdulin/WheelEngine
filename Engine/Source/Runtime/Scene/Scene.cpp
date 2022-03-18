@@ -61,7 +61,6 @@ namespace Wheel {
             }
         }
 
-
         Wheel::Renderer2D::BeginScene(*mainCamera, cameraTransform);
         auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
         for (auto entity : group)

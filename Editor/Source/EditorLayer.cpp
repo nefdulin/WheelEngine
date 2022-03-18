@@ -2,6 +2,7 @@
 #include "EditorLayer.h"
 #include "Renderer/Renderer2D.h"
 #include <imgui.h>
+#include <imguizmo.h>
 #include <glm/gtc/type_ptr.inl>
 
 namespace Wheel {
@@ -153,7 +154,44 @@ namespace Wheel {
         m_ViewportSize = { availRegion.x, availRegion.y };
 
         // Flip the image
-        ImGui::Image((void*)textureID, {m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});;
+        ImGui::Image((void*)textureID, {m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
+
+        Entity* selectedEntity = &m_SceneHierarchyPanel->GetSelectedEntity();
+        if (selectedEntity && !selectedEntity->HasComponent<CameraComponent>())
+        {
+            ImGuizmo::SetOrthographic(false);
+            ImGuizmo::SetDrawlist();
+
+            float windowWidth = (float)ImGui::GetWindowWidth();
+            float windowHeight = (float)ImGui::GetWindowHeight();
+            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+            // Camera
+            auto cameraEntity = m_CameraEntity;
+            const auto& camera = cameraEntity->GetComponent<CameraComponent>().Camera;
+            const glm::mat4& cameraProjection = camera.GetProjectionMatrix();
+            glm::mat4 cameraView = glm::inverse(cameraEntity->GetComponent<TransformComponent>().GetTransform());
+
+            // Entity transform
+            auto& tc = selectedEntity->GetComponent<TransformComponent>();
+            glm::mat4 transform = tc.GetTransform();
+
+            ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+                                 ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform),
+                                 nullptr, nullptr);
+
+            if (ImGuizmo::IsUsing())
+            {
+                glm::vec3 position, rotation, scale;
+                ImGuizmo::DecomposeMatrixToComponents((float*) &transform[0], glm::value_ptr(position), glm::value_ptr(rotation), glm::value_ptr(scale));
+
+                glm::vec3 deltaRotation = rotation - tc.Rotation;
+                tc.Position = position;
+                tc.Rotation += deltaRotation;
+                tc.Scale = scale;
+            }
+        }
+
         ImGui::End();
         ImGui::PopStyleVar();
 

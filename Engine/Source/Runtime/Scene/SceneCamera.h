@@ -8,19 +8,12 @@ namespace Wheel {
     class SceneCamera : public Camera
     {
     public:
-        enum class ProjectionType
-        {
-            Perspective = 0,
-            Orthographic = 1
-        };
-    public:
         SceneCamera() = default;
 
         SceneCamera(ProjectionType type)
             : m_ProjectionType(type) {}
 
         virtual ~SceneCamera() = default;
-
 
         void SetViewportSize(uint32_t width, uint32_t height);
 
