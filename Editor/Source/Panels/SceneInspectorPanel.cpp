@@ -183,7 +183,7 @@ namespace Wheel {
                     if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
                     {
                         currentProjectionTypeString = projectionTypeStrings[i];
-                        camera.SetProjectionType((SceneCamera::ProjectionType)i);
+                        camera.SetProjectionType((Camera::ProjectionType)i);
                     }
 
                     if (isSelected)
@@ -193,7 +193,7 @@ namespace Wheel {
                 ImGui::EndCombo();
             }
 
-            if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
+            if (camera.GetProjectionType() == Camera::ProjectionType::Perspective)
             {
                 float perspectiveVerticalFov = glm::degrees(camera.GetPerspectiveVerticalFOV());
                 if (ImGui::DragFloat("Vertical FOV", &perspectiveVerticalFov))
@@ -208,7 +208,7 @@ namespace Wheel {
                     camera.SetPerspectiveFarClip(perspectiveFar);
             }
 
-            if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
+            if (camera.GetProjectionType() == Camera::ProjectionType::Orthographic)
             {
                 float orthoSize = camera.GetOrthographicSize();
                 if (ImGui::DragFloat("Size", &orthoSize))

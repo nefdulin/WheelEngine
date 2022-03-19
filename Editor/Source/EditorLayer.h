@@ -2,6 +2,7 @@
 #include <Wheel.h>
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/SceneInspectorPanel.h"
+#include "EditorCamera.h"
 
 namespace Wheel {
     class EditorLayer : public Wheel::Layer
@@ -16,12 +17,10 @@ namespace Wheel {
 
         bool OnScreenResize(Wheel::WindowResizeEvent& e);
     private:
-        Ref<Wheel::Camera> m_Camera;
-        Ref<Wheel::Texture> m_GalaxyTexture;
+        Ref<EditorCamera> m_EditorCamera;
         Ref<Wheel::Framebuffer> m_Framebuffer;
         Ref<Scene> m_Scene;
         Ref<Entity> m_Entity;
-        Ref<Entity> m_RedEntity;
         Ref<Entity> m_CameraEntity;
         Ref<SceneHierarchyPanel> m_SceneHierarchyPanel;
         Ref<SceneInspectorPanel> m_SceneInspectorPanel;

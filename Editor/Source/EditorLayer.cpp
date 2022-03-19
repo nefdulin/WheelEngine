@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include <imguizmo.h>
 #include <glm/gtc/type_ptr.inl>
+#include "EditorCamera.h"
 
 namespace Wheel {
 
@@ -33,8 +34,6 @@ namespace Wheel {
 
     void EditorLayer::OnAttach()
     {
-        //m_Camera = Wheel::CreateRef<Wheel::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
-        m_GalaxyTexture = Wheel::Texture2D::Create("assets/textures/test.png");
         Wheel::FramebufferSpecification spec;
         spec.Width = 1280;
         spec.Height = 720;
@@ -49,6 +48,8 @@ namespace Wheel {
         m_SceneHierarchyPanel = CreateRef<SceneHierarchyPanel>(m_Scene);
         m_SceneInspectorPanel = CreateRef<SceneInspectorPanel>();
         m_Framebuffer = Wheel::Framebuffer::Create(spec);
+
+        m_EditorCamera = CreateRef<EditorCamera>(45, 1.7, 0.1f, 10000.0f);
     }
 
     void EditorLayer::OnDetach()
@@ -63,7 +64,7 @@ namespace Wheel {
                 (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-
+            m_EditorCamera->SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
             m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         }
 
@@ -71,7 +72,10 @@ namespace Wheel {
         Wheel::RenderCommand::SetClearColor({ 0.01f, 0.01f, 0.07f, 1.0f });
         Wheel::RenderCommand::Clear();
 
-        m_Scene->OnUpdate(deltaTime);
+        // m_Scene->OnUpdate(deltaTime);
+
+        m_EditorCamera->OnUpdate(deltaTime);
+        m_Scene->OnUpdateEditor(deltaTime, *m_EditorCamera);
 
         m_Framebuffer->Unbind();
     }
@@ -144,6 +148,7 @@ namespace Wheel {
         m_SceneInspectorPanel->OnImGuiRender();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+        // TODO: This will change there will be 2 viewports one for editor and for the game
         ImGui::Begin("Viewport");
 
         m_ViewportFocused = ImGui::IsWindowFocused();
@@ -167,10 +172,8 @@ namespace Wheel {
             ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
             // Camera
-            auto cameraEntity = m_CameraEntity;
-            const auto& camera = cameraEntity->GetComponent<CameraComponent>().Camera;
-            const glm::mat4& cameraProjection = camera.GetProjectionMatrix();
-            glm::mat4 cameraView = glm::inverse(cameraEntity->GetComponent<TransformComponent>().GetTransform());
+            const glm::mat4& cameraProjection = m_EditorCamera->GetProjectionMatrix();
+            glm::mat4 cameraView = m_EditorCamera->GetViewMatrix();
 
             // Entity transform
             auto& tc = selectedEntity->GetComponent<TransformComponent>();

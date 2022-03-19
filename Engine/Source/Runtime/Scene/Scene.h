@@ -6,6 +6,7 @@
 namespace Wheel {
 
     class Entity;
+    class Camera;
 
     class Scene
     {
@@ -16,6 +17,9 @@ namespace Wheel {
 
         Ref<Entity> CreateEntity(const std::string& name);
         void OnUpdate(float deltaTime);
+        void OnUpdateEditor(float deltaTime, const Camera& c);
+
+        void Test();
 
         void DestroyEntity(Entity& entity);
 

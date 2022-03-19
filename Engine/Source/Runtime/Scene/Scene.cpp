@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Components.h"
 #include "Renderer/Renderer2D.h"
+#include "Renderer/Camera.h"
 #include "unordered_map"
 
 namespace Wheel {
@@ -71,6 +72,21 @@ namespace Wheel {
         }
 
         Wheel::Renderer2D::EndScene();
+    }
+
+    void Scene::OnUpdateEditor(float deltaTime, const Camera& c)
+    {
+        Renderer2D::BeginScene(c.GetProjectionMatrix() * c.GetViewMatrix());
+
+        auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+        for (auto entity : group)
+        {
+            auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+            Renderer2D::DrawQuad(transform, sprite);
+        }
+
+        Renderer2D::EndScene();
     }
 
     void Scene::OnViewportResize(uint32_t width, uint32_t height)

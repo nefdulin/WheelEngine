@@ -86,6 +86,13 @@ namespace Wheel
         s_Data->CameraBuffer->ViewProjection = camera.GetProjectionMatrix() * glm::inverse(transform);
     }
 
+    void Renderer2D::BeginScene(const glm::mat4& viewProjectionMatrix)
+    {
+        s_Data->DefaultShader->Bind();
+
+        s_Data->CameraBuffer->ViewProjection = viewProjectionMatrix;
+    }
+
 	void Renderer2D::EndScene()
 	{
 
