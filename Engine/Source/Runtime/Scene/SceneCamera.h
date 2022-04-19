@@ -26,10 +26,10 @@ namespace Wheel {
         void SetPerspectiveVerticalFOV(float fov) { m_PerspectiveFOV = fov; RecalculateProjection(); }
 
         float GetPerspectiveNearClip() const { return m_PerspectiveNear; }
-        void SetPerspectiveNearClip(float near) { m_PerspectiveNear = near; }
+        void SetPerspectiveNearClip(float value) { m_PerspectiveNear = value; }
 
         float GetPerspectiveFarClip() const { return m_PerspectiveFar; }
-        void SetPerspectiveFarClip(float far) { m_PerspectiveFar = far; RecalculateProjection(); }
+        void SetPerspectiveFarClip(float value) { m_PerspectiveFar = value; RecalculateProjection(); }
 
         void SetOrthographic(float size, float nearClip, float farClip);
 

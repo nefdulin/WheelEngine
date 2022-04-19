@@ -2,6 +2,7 @@
 #include <Wheel.h>
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/SceneInspectorPanel.h"
+#include "Panels/ResourceBrowser.h"
 #include "EditorCamera.h"
 
 namespace Wheel {
@@ -24,6 +25,7 @@ namespace Wheel {
         Ref<Entity> m_CameraEntity;
         Ref<SceneHierarchyPanel> m_SceneHierarchyPanel;
         Ref<SceneInspectorPanel> m_SceneInspectorPanel;
+        Ref<ResourceBrowser> m_ResourceBrowser;
 
         bool m_ViewportHovered = true;
         bool m_ViewportFocused = true;

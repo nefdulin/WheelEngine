@@ -47,6 +47,8 @@ namespace Wheel {
 
         m_SceneHierarchyPanel = CreateRef<SceneHierarchyPanel>(m_Scene);
         m_SceneInspectorPanel = CreateRef<SceneInspectorPanel>();
+        m_ResourceBrowser = CreateRef<ResourceBrowser>();
+
         m_Framebuffer = Wheel::Framebuffer::Create(spec);
 
         m_EditorCamera = CreateRef<EditorCamera>(45, 1.7, 0.1f, 10000.0f);
@@ -146,6 +148,8 @@ namespace Wheel {
 
         m_SceneInspectorPanel->SetSelectedEntity(m_SceneHierarchyPanel->GetSelectedEntity());
         m_SceneInspectorPanel->OnImGuiRender();
+
+        m_ResourceBrowser->OnImGuiRender();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         // TODO: This will change there will be 2 viewports one for editor and for the game

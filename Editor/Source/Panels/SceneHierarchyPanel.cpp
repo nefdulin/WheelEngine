@@ -3,7 +3,8 @@
 
 namespace Wheel {
 
-    SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene> &context)
+    SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene> &context) : 
+        m_SelectedEntity(nullptr)
     {
         SetContext(context);
     }
@@ -44,8 +45,10 @@ namespace Wheel {
 
     void SceneHierarchyPanel::DrawEntityNode(Entity& entity)
     {
-        ImGuiTreeNodeFlags flags = ((m_SelectedEntity != nullptr && *m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0 )
-                | ImGuiTreeNodeFlags_OpenOnArrow;
+        ImGuiTreeNodeFlags flags;
+        if (m_SelectedEntity != nullptr)
+            flags = (*m_SelectedEntity == entity ? ImGuiTreeNodeFlags_Selected : 0 ) | ImGuiTreeNodeFlags_OpenOnArrow;
+
         flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
         bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t) entity, flags, entity.GetName().c_str());
 
