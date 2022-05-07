@@ -17,3 +17,6 @@
 [submodule "Engine/Source/ThirdParty/ImGuizmo"]
 	path = Engine/Source/ThirdParty/ImGuizmo
 	url = https://github.com/nefdulin/ImGuizmo
+[submodule "Engine/Source/ThirdParty/assimp"]
+	path = Engine/Source/ThirdParty/assimp
+	url = https://github.com/assimp/assimp
