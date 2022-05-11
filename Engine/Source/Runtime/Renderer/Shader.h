@@ -36,7 +36,7 @@ namespace Wheel {
         static std::string ReadFromFile(const std::string& path);
         static ShaderSourceMap Parse(const std::string& source);
 
-    protected:
+    public:
         static Ref<Shader> Create(const std::string& name, const std::string& path);
         static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
     };

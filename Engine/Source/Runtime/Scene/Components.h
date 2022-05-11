@@ -40,6 +40,18 @@ namespace Wheel {
         glm::vec4 Color{1.0f};
     };
 
+    struct ModelRendererComponent
+    {
+        ModelRendererComponent() = default;
+        ModelRendererComponent(const ModelRendererComponent& other) = default;
+        ModelRendererComponent(const std::string& path)
+        {
+            Model = Model::Load(path);
+        }
+
+        Model Model; 
+    };
+
     struct CameraComponent
     {
         CameraComponent() = default;

@@ -56,7 +56,11 @@ set(SRC_RENDERER
         Renderer/Texture.h
         Renderer/Texture.cpp
         Renderer/OrthographicCamera.cpp
-        Renderer/OrthographicCamera.h)
+        Renderer/OrthographicCamera.h
+        Renderer/Model.h
+        Renderer/Model.cpp
+        Renderer/Mesh.h
+        Renderer/Mesh.cpp)
 
 set(SRC_PLATFORM_MAC
         Platform/Mac/MacWindow.h

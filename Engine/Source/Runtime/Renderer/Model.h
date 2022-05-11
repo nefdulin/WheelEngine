@@ -1,0 +1,9 @@
+
+namespace Wheel {
+
+	class Model
+	{
+
+	};
+
+}

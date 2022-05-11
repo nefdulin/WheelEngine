@@ -6,7 +6,8 @@ namespace Wheel {
 
 	class Renderer2D
 	{
-	public:
+		friend class Renderer;
+	protected:
 		static void Init();
 		static void Shutdown();
 

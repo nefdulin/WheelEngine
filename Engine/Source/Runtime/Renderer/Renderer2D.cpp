@@ -1,3 +1,4 @@
+#include "Renderer.h"
 #include "Renderer2D.h"
 #include "VertexArray.h"
 #include "Shader.h"
@@ -16,12 +17,7 @@ namespace Wheel
 		Ref<VertexArray> QuadVertexArray;
 		Ref<Texture> DefaultTexture;
 
-		struct CameraData
-		{
-			glm::mat4 ViewProjection;
-		};
-
-		Ref<CameraData> CameraBuffer;
+		Ref<Renderer::CameraData> CameraData;
 	};
 
 	static Renderer2DData* s_Data = nullptr;
@@ -60,7 +56,7 @@ namespace Wheel
 		s_Data->ShaderLibrary = CreateRef<ShaderLibrary>();
 		s_Data->DefaultShader = s_Data->ShaderLibrary->Load("default2D", "assets/shaders/default2D.glsl");
 
-		s_Data->CameraBuffer = CreateRef<Renderer2DData::CameraData>();
+		s_Data->CameraData = CreateRef<Renderer::CameraData>();
 
 		s_Data->DefaultTexture = Texture2D::Create(1, 1);
 		uint32_t textureData = 0xFFFFFFFF;
@@ -83,14 +79,14 @@ namespace Wheel
     {
         s_Data->DefaultShader->Bind();
 
-        s_Data->CameraBuffer->ViewProjection = camera.GetProjectionMatrix() * glm::inverse(transform);
+        s_Data->CameraData->ViewProjection = camera.GetProjectionMatrix() * glm::inverse(transform);
     }
 
     void Renderer2D::BeginScene(const glm::mat4& viewProjectionMatrix)
     {
         s_Data->DefaultShader->Bind();
 
-        s_Data->CameraBuffer->ViewProjection = viewProjectionMatrix;
+        s_Data->CameraData->ViewProjection = viewProjectionMatrix;
     }
 
 	void Renderer2D::EndScene()
@@ -108,7 +104,7 @@ namespace Wheel
 		s_Data->DefaultShader->Bind();
 		s_Data->QuadVertexArray->Bind();
 
-		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), scale));
+		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraData->ViewProjection * glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), scale));
 
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
@@ -117,7 +113,7 @@ namespace Wheel
 	{
 		s_Data->DefaultShader->Bind();
 
-		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), scale));
+		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraData->ViewProjection * glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), scale));
 		s_Data->DefaultShader->SetFloat4("u_Color", color);
 
 		s_Data->DefaultTexture->Bind(0);
@@ -134,7 +130,7 @@ namespace Wheel
 		s_Data->QuadVertexArray->Bind();
 		texture->Bind(0);
 
-		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), scale));
+		s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraData->ViewProjection * glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), scale));
 		s_Data->DefaultShader->SetFloat4("u_Color", { 1.0, 1.0f, 1.0f, 1.0f });
 		s_Data->DefaultShader->SetInt("u_Texture", 0);
 		
@@ -146,7 +142,7 @@ namespace Wheel
         s_Data->DefaultShader->Bind();
         s_Data->QuadVertexArray->Bind();
 
-        s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraBuffer->ViewProjection * transform);
+        s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraData->ViewProjection * transform);
         s_Data->DefaultShader->SetFloat4("u_Color", color);
 
         s_Data->DefaultTexture->Bind(0);
