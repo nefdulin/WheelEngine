@@ -52,6 +52,18 @@ namespace Wheel {
         m_Framebuffer = Wheel::Framebuffer::Create(spec);
 
         m_EditorCamera = CreateRef<EditorCamera>(45, 1.7, 0.1f, 10000.0f);
+
+        for (int i = 0; i < 3; i++)
+        {
+            auto entity = m_Scene->CreateEntity("Entity " + std::to_string(i));
+            auto& component = entity->AddComponent<MeshRendererComponent>();
+            component.Mesh = MeshFactory::CreateCube(glm::vec3(1.0f));
+
+            if (i == 2)
+            {
+                component.Mesh = MeshFactory::CreateSphere(1.0f);
+            }
+        }
     }
 
     void EditorLayer::OnDetach()
@@ -68,6 +80,13 @@ namespace Wheel {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_EditorCamera->SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
             m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        }
+
+        if (Input::IsKeyPressed(Key::Enter))
+        {
+            auto entity = m_Scene->CreateEntity("New Entity");
+            auto& component = entity->AddComponent<MeshRendererComponent>();
+            component.Mesh = MeshFactory::CreateSphere(1.0f);
         }
 
         m_Framebuffer->Bind();

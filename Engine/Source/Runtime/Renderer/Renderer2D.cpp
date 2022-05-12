@@ -42,8 +42,8 @@ namespace Wheel
 		Ref<VertexBuffer> vb = VertexBuffer::CreateVertexBuffer(vertices, sizeof(vertices));
 
 		BufferLayout layout{
-			{ShaderDataType::Float3, "a_Positions"},
-			{ShaderDataType::Float2, "a_TexCoords"}
+			{ ShaderDataType::Float3, "a_Positions"},
+			{ ShaderDataType::Float2, "a_TexCoords"}
 		};
 		
 		vb->SetLayout(layout);

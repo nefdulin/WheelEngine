@@ -32,5 +32,6 @@ namespace Wheel {
     {
         va->Bind();
         glDrawElements(GL_TRIANGLES, va->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+        va->Unbind();
     }
 }

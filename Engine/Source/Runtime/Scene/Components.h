@@ -4,6 +4,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include "SceneCamera.h"
 #include "ScriptableEntity.h"
+#include "Renderer/Model.h"
 
 namespace Wheel {
 
@@ -46,10 +47,26 @@ namespace Wheel {
         ModelRendererComponent(const ModelRendererComponent& other) = default;
         ModelRendererComponent(const std::string& path)
         {
-            Model = Model::Load(path);
+            model = CreateRef<Model>(path);
         }
 
-        Model Model; 
+        operator const Ref<Model>() const { return model; }
+
+        // Fix this
+        Ref<Model> model; 
+    };
+
+    struct MeshRendererComponent
+    {
+        MeshRendererComponent() = default;
+        MeshRendererComponent(const MeshRendererComponent& other) = default;
+        
+        //operator Ref<Mesh>() { return Mesh; }
+        operator Ref<Mesh>() { return Mesh; }
+
+        Ref<Mesh> Mesh;
+
+        glm::vec4 Color{ 1.0f };
     };
 
     struct CameraComponent

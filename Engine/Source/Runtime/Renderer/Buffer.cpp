@@ -5,7 +5,7 @@
 
 namespace Wheel {
 
-    Ref<VertexBuffer> VertexBuffer::CreateVertexBuffer(float* vertices, uint32_t size)
+    Ref<VertexBuffer> VertexBuffer::CreateVertexBuffer(void* vertices, uint32_t size)
     {
         switch (Renderer::GetAPI())
         {

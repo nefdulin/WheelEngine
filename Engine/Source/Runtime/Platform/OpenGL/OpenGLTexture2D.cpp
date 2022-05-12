@@ -52,6 +52,13 @@ namespace Wheel {
         stbi_image_free(data);
 	}
 
+    OpenGLTexture2D::OpenGLTexture2D(const std::string& path, TextureType type) : 
+        OpenGLTexture2D(path)
+    {
+        m_Type = type;
+        m_Path = path;
+    }
+
     OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) :
         m_Width(width), m_Height(height)
     {

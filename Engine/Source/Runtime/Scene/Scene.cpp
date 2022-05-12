@@ -79,12 +79,31 @@ namespace Wheel {
     {
         Renderer::BeginScene(c.GetProjectionMatrix() * c.GetViewMatrix());
 
-        auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+        auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
         for (auto entity : group)
         {
             auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
             Renderer::DrawQuad(transform, sprite);
+        }
+
+        auto modelGroup = m_Registry.group<ModelRendererComponent>(entt::get<TransformComponent>);
+        for (auto entity : modelGroup)
+        {
+            auto [transform, model] = modelGroup.get<TransformComponent, ModelRendererComponent>(entity);
+
+            Renderer::DrawModel(transform, model);
+        }
+
+        auto meshes  = m_Registry.group<MeshRendererComponent>(entt::get<TransformComponent>);
+        for (auto entity : meshes)
+        {
+            auto& [transform, mesh] = meshes.get<TransformComponent, MeshRendererComponent>(entity);
+
+            if (mesh.Mesh == nullptr)
+                continue;
+
+            Renderer::DrawMesh(transform, mesh, mesh.Color);
         }
 
         Renderer::EndScene();

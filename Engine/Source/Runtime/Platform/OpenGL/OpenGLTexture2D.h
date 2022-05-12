@@ -9,6 +9,7 @@ namespace Wheel {
 	{
 	public:
 		OpenGLTexture2D(const std::string& path);
+		OpenGLTexture2D(const std::string& path, TextureType type);
 		OpenGLTexture2D(uint32_t width, uint32_t height);
 
 		~OpenGLTexture2D();
@@ -16,6 +17,8 @@ namespace Wheel {
 		virtual uint32_t GetWidth() const override { return m_Width; }
 		virtual uint32_t GetHeight() const override { return m_Height; }
 		virtual uint32_t GetRendererID() const override { return m_RendererID; }
+		virtual TextureType GetType() const { return m_Type; }
+		virtual std::string GetPath() const { return m_Path; }
 
 		virtual void SetData(const void* data, uint32_t size);
 
@@ -26,6 +29,9 @@ namespace Wheel {
 
 		uint32_t m_Width;
 		uint32_t m_Height;
+		TextureType m_Type;
+
+		std::string m_Path;
 
 		GLenum m_InternalFormat;
 		GLenum m_DataFormat;

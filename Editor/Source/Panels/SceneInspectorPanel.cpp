@@ -155,6 +155,20 @@ namespace Wheel {
                 ImGui::CloseCurrentPopup();
             }
 
+
+            if (!entity.HasComponent<MeshRendererComponent>() && ImGui::MenuItem("Mesh Renderer"))
+            {
+                m_SelectedEntity->AddComponent<MeshRendererComponent>();
+                ImGui::CloseCurrentPopup();
+            }
+
+            if (!entity.HasComponent<ModelRendererComponent>() && ImGui::MenuItem("Model Renderer"))
+            {
+                m_SelectedEntity->AddComponent<ModelRendererComponent>("assets/models/m4a4.fbx");
+                ImGui::CloseCurrentPopup();
+            }
+
+
             ImGui::EndPopup();
         }
 
@@ -229,6 +243,45 @@ namespace Wheel {
         {
             ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
         });
+
+        DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](auto& component)
+        {
+            if (ImGui::Button("Create new mesh"))
+                ImGui::OpenPopup("CreateMesh");
+            
+            if (ImGui::BeginPopup("CreateMesh"))
+            {
+                if (ImGui::MenuItem("Cube"))
+                {
+                    component.Mesh = MeshFactory::CreateCube(glm::vec3(1.0f));
+                    ImGui::CloseCurrentPopup();
+                }
+            
+                if (ImGui::MenuItem("Sphere"))
+                {
+                    component.Mesh = MeshFactory::CreateSphere(1.0f);
+                    ImGui::CloseCurrentPopup();
+                }
+
+                if (ImGui::MenuItem("CustomBowl"))
+                {
+                    ImGui::CloseCurrentPopup();
+                }
+            
+                if (ImGui::MenuItem("Cylinder"))
+                {
+                    ImGui::CloseCurrentPopup();
+                }
+            
+                ImGui::EndPopup();
+            }
+
+            ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+            // ImGui::Text(model->GetName().c_str());
+        });
+
+
+        
 
     }
 
