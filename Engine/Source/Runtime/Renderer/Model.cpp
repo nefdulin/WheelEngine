@@ -105,7 +105,7 @@ namespace Wheel {
 			aiString str;
 			material->GetTexture(aiType, i, &str);
 			bool skip = false;
-			std::string path = std::string("assets/models/") + str.C_Str();
+			std::string path = std::string("assets/models/backpack/") + str.C_Str();
 			for (int i = 0; i < m_LoadedTextures.size(); i++)
 			{
 				if (m_LoadedTextures[i]->GetPath() == path.c_str())

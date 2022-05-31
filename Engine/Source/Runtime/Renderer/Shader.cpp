@@ -64,12 +64,14 @@ namespace Wheel {
 			}
 			else
 			{
-				WHEEL_CORE_ASSERT(false, "Error reading shader file {0}", path);
+				WHEEL_CORE_ASSERT(false, "Error reading shader file {0}", path.c_str());
 			}
 		}
 		else
 		{
-			WHEEL_CORE_ASSERT(false, "Error opening shader file {0}", path);
+            WHEEL_CORE_INFO("ErrorCode: {0}", strerror(errno));
+			WHEEL_CORE_ASSERT(false, "Error opening shader file {0} error code: {1}", path.c_str(), strerror(errno));
+
 		}
 		
 		return result;

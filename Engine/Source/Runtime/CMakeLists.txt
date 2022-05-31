@@ -11,6 +11,7 @@ include_directories(../ThirdParty/stb_image)
 include_directories(../ThirdParty/entt/single_include)
 include_directories(../ThirdParty/imguizmo)
 include_directories(../ThirdParty/assimp)
+include_directories(../ThirdParty/YAML/include)
 
 set(SRC_CORE
         Core/Core.h
@@ -122,6 +123,7 @@ target_link_libraries(Engine  imgui)
 target_link_libraries(Engine  stb_image)
 target_link_libraries(Engine  imguizmo)
 target_link_libraries(Engine  assimp)
+target_link_libraries(Engine  yaml-cpp)
 
 target_precompile_headers(Engine PRIVATE
         <iostream>

@@ -164,7 +164,7 @@ namespace Wheel {
 
             if (!entity.HasComponent<ModelRendererComponent>() && ImGui::MenuItem("Model Renderer"))
             {
-                m_SelectedEntity->AddComponent<ModelRendererComponent>("assets/models/m4a4.fbx");
+                m_SelectedEntity->AddComponent<ModelRendererComponent>("assets/models/backpack/backpack.obj");
                 ImGui::CloseCurrentPopup();
             }
 

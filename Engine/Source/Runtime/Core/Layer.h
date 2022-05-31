@@ -21,7 +21,6 @@ namespace Wheel {
     private:
         std::string m_DebugName;
     };
-
 }
 
 

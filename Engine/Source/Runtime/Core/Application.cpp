@@ -6,7 +6,7 @@
 #include "Renderer/OrthographicCamera.h"
 #include <entt/entt.hpp>
 #include <glm/glm.hpp>
-
+#include <filesystem>
 
 namespace Wheel {
 
@@ -16,10 +16,12 @@ namespace Wheel {
     {
         WHEEL_CORE_ASSERT(s_Instance == nullptr, "An application already exists!");
         s_Instance = this;
-
+        // WindowCreate function changes the working directory of the project
+        // Need to set it back to the default working directory through this little hack
+        auto path = std::filesystem::current_path();
         m_Window = std::unique_ptr<Window>(Window::Create({name, width, height}));
         m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
-
+        std::filesystem::current_path(path);
         Renderer::Init(m_Window->GetWidth(), m_Window->GetHeight());
 
         m_ImGuiLayer = std::make_shared<ImGuiLayer>();

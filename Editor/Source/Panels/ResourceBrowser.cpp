@@ -28,6 +28,9 @@ namespace Wheel
 
 		uint8_t columnCount = ImGui::GetContentRegionAvail().x / s_IconSize;
 
+        if (columnCount <= 0)
+            return;
+
 		if (ImGui::BeginTable(m_CurrentDirectory.string().c_str(), columnCount))
 		{
 			for (auto& directory : std::filesystem::directory_iterator(m_CurrentDirectory))

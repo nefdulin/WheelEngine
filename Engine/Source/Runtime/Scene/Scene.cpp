@@ -98,7 +98,7 @@ namespace Wheel {
         auto meshes  = m_Registry.group<MeshRendererComponent>(entt::get<TransformComponent>);
         for (auto entity : meshes)
         {
-            auto& [transform, mesh] = meshes.get<TransformComponent, MeshRendererComponent>(entity);
+            auto [transform, mesh] = meshes.get<TransformComponent, MeshRendererComponent>(entity);
 
             if (mesh.Mesh == nullptr)
                 continue;

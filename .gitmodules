@@ -20,3 +20,6 @@
 [submodule "Engine/Source/ThirdParty/assimp"]
 	path = Engine/Source/ThirdParty/assimp
 	url = https://github.com/assimp/assimp
+[submodule "Engine/Source/ThirdParty/YAML"]
+	path = Engine/Source/ThirdParty/YAML
+	url = https://github.com/jbeder/yaml-cpp/
