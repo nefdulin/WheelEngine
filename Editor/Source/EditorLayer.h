@@ -6,6 +6,27 @@
 #include "EditorCamera.h"
 
 namespace Wheel {
+
+    class SimpleDialog
+    {
+    public:
+        SimpleDialog(std::string name, std::function<void(std::string)> function)
+        {
+            FunctionName = name;
+            Function = function;
+        }
+
+        void OnImGuiRender();
+
+        void SetText(const std::string& text);
+    public:
+        bool Active = false;
+        std::string FunctionName = "";
+        std::string FileName = "";
+        std::function<void(std::string)> Function;
+    };
+
+
     class EditorLayer : public Wheel::Layer
     {
         virtual void OnAttach() override;
@@ -17,6 +38,13 @@ namespace Wheel {
         virtual void OnImGuiRender() override;
 
         bool OnScreenResize(Wheel::WindowResizeEvent& e);
+    public:
+        void NewScene();
+        void NewScene(std::string name);
+        void LoadScene(std::string name);
+        void OpenScene(const std::filesystem::path& path);
+        void SaveScene(std::string name);
+
     private:
         Ref<EditorCamera> m_EditorCamera;
         Ref<Wheel::Framebuffer> m_Framebuffer;
@@ -26,6 +54,9 @@ namespace Wheel {
         Ref<SceneHierarchyPanel> m_SceneHierarchyPanel;
         Ref<SceneInspectorPanel> m_SceneInspectorPanel;
         Ref<ResourceBrowser> m_ResourceBrowser;
+        Ref<SimpleDialog> m_NewSceneDialog;
+        Ref<SimpleDialog> m_LoadSceneDialog;
+        Ref<SimpleDialog> m_SaveSceneDialog;
 
         bool m_ViewportHovered = true;
         bool m_ViewportFocused = true;

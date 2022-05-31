@@ -159,7 +159,8 @@ namespace Wheel {
         out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
         m_Scene->m_Registry.each([&](auto entityID)
                                  {
-                                     Entity entity = { entityID, m_Scene.get() };
+                                    Entity& entity = m_Scene->GetEntityFromEntityHandle(entityID);
+                                     //Entity entity = { entityID, m_Scene.get() };
                                      if (!entity)
                                          return;
 

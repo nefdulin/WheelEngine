@@ -9,6 +9,27 @@
 
 namespace Wheel {
 
+    void SimpleDialog::OnImGuiRender()
+    {
+        ImGui::Begin("DialogWindow");
+        ImGui::Text("Name:");
+        ImGui::SameLine();
+        char buffer[256];
+        memset(buffer, 0, sizeof(buffer));
+        strcpy(buffer, FileName.c_str());
+        if (ImGui::InputText("##Name", buffer, sizeof(buffer)))
+        {
+            FileName = std::string(buffer);
+        }
+
+        if (ImGui::Button(FunctionName.c_str()))
+        {
+            Function(FileName);
+        }
+
+        ImGui::End();
+    }
+
     class CameraController : public ScriptableEntity
     {
     public:
@@ -49,6 +70,11 @@ namespace Wheel {
         m_SceneHierarchyPanel = CreateRef<SceneHierarchyPanel>(m_Scene);
         m_SceneInspectorPanel = CreateRef<SceneInspectorPanel>();
         m_ResourceBrowser = CreateRef<ResourceBrowser>();
+
+        //m_NewSceneDialog = CreateRef<SimpleDialog>("Create", std::bind(&EditorLayer::NewScene, this, std::placeholders::_1));
+        m_LoadSceneDialog = CreateRef<SimpleDialog>("Load", std::bind(&EditorLayer::LoadScene, this, std::placeholders::_1));
+        m_SaveSceneDialog = CreateRef<SimpleDialog>("Save", std::bind(&EditorLayer::SaveScene, this, std::placeholders::_1));
+//        m_SaveSceneDialog = CreateRef<SimpleDialog>();
 
         m_Framebuffer = Wheel::Framebuffer::Create(spec);
 
@@ -145,13 +171,47 @@ namespace Wheel {
             {
                 // Disabling fullscreen would allow the window to be moved to the front of other windows,
                 // which we can't undo at the moment without finer window depth/z control.
-                //ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+                //ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);1
+                if (ImGui::MenuItem("New", "Ctrl+N"))
+                {
+                    NewScene();
+                    //m_NewSceneDialog->Active = true;
+                }
 
-                if (ImGui::MenuItem("Exit")) Wheel::Application::Get().Close();
+
+                if (ImGui::MenuItem("Load...", "Ctrl+O"))
+                {
+                    m_LoadSceneDialog->Active = true;
+                }
+
+                if (ImGui::MenuItem("Save...", "Ctrl+S"))
+                {
+                    m_SaveSceneDialog->Active = true;
+                }
+
+//                if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+//                    //SaveSceneAs();
+
+                if (ImGui::MenuItem("Exit")) Application::Get().Close();
                 ImGui::EndMenu();
             }
 
             ImGui::EndMenuBar();
+        }
+
+//        if (m_NewSceneDialog->Active)
+//        {
+//            m_NewSceneDialog->OnImGuiRender();
+//        }
+
+        if (m_LoadSceneDialog->Active)
+        {
+            m_LoadSceneDialog->OnImGuiRender();
+        }
+
+        if (m_SaveSceneDialog->Active)
+        {
+            m_SaveSceneDialog->OnImGuiRender();
         }
 
         m_SceneHierarchyPanel->OnImGuiRender();
@@ -226,6 +286,72 @@ namespace Wheel {
     {
         return false;
     }
+
+    void EditorLayer::NewScene()
+    {
+        m_SceneInspectorPanel->SetSelectedEntity(nullptr);
+        m_Scene = CreateRef<Scene>();
+        m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_SceneHierarchyPanel->SetContext(m_Scene);
+
+        m_NewSceneDialog->Active = false;
+    }
+
+    void EditorLayer::NewScene(std::string name)
+    {
+        m_SceneInspectorPanel->SetSelectedEntity(nullptr);
+        m_Scene = CreateRef<Scene>();
+        m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_SceneHierarchyPanel->SetContext(m_Scene);
+
+        m_NewSceneDialog->Active = false;
+    }
+
+    void EditorLayer::LoadScene(std::string name)
+    {
+        m_SceneInspectorPanel->SetSelectedEntity(nullptr);
+        m_Scene = CreateRef<Scene>();
+        SceneSerializer serializer(m_Scene);
+
+        m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_SceneHierarchyPanel->SetContext(m_Scene);
+
+        std::string fullPath = "assets/scenes/" + name;
+        serializer.Deserialize(fullPath);
+
+        m_LoadSceneDialog->Active = false;
+        //std::string filepath = FileDialogs::OpenFile("Hazel Scene (*.hazel)\0*.hazel\0");
+//        if (!filepath.empty())
+//            OpenScene(filepath);
+    }
+
+    void EditorLayer::OpenScene(const std::filesystem::path& path)
+    {
+        if (path.extension().string() != ".hazel")
+        {
+            WHEEL_CORE_WARN("Could not load {0} - not a scene file", path.filename().string());
+            return;
+        }
+
+        Ref<Scene> newScene = CreateRef<Scene>();
+        SceneSerializer serializer(newScene);
+        if (serializer.Deserialize(path.string()))
+        {
+            m_Scene = newScene;
+            m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_SceneHierarchyPanel->SetContext(m_Scene);
+        }
+    }
+
+    void EditorLayer::SaveScene(std::string name)
+    {
+        SceneSerializer serializer(m_Scene);
+        std::string path = "assets/scenes/" + name;
+        serializer.Serialize(path);
+
+        m_SaveSceneDialog->Active = false;
+    }
+
 }
 
 

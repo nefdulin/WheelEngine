@@ -289,4 +289,9 @@ namespace Wheel {
     {
         m_SelectedEntity = &entity;
     }
+
+    void SceneInspectorPanel::SetSelectedEntity(Entity* entity)
+    {
+        m_SelectedEntity = entity;
+    }
 }

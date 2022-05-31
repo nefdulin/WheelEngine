@@ -11,6 +11,7 @@ namespace Wheel {
         void DrawComponents(Entity& entity);
 
         void SetSelectedEntity(Entity& entity);
+        void SetSelectedEntity(Entity* entity);
     private:
         Entity* m_SelectedEntity;
     };
