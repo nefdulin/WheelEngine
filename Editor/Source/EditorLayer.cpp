@@ -5,6 +5,7 @@
 #include <imguizmo.h>
 #include <glm/gtc/type_ptr.inl>
 #include "EditorCamera.h"
+#include <Scene/SceneSerializer.h>
 
 namespace Wheel {
 
@@ -53,17 +54,7 @@ namespace Wheel {
 
         m_EditorCamera = CreateRef<EditorCamera>(45, 1.7, 0.1f, 10000.0f);
 
-        for (int i = 0; i < 3; i++)
-        {
-            auto entity = m_Scene->CreateEntity("Entity " + std::to_string(i));
-            auto& component = entity->AddComponent<MeshRendererComponent>();
-            component.Mesh = MeshFactory::CreateCube(glm::vec3(1.0f));
-
-            if (i == 2)
-            {
-                component.Mesh = MeshFactory::CreateSphere(1.0f);
-            }
-        }
+        SceneSerializer serializer(m_Scene);
     }
 
     void EditorLayer::OnDetach()

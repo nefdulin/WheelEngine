@@ -11,6 +11,7 @@ namespace Wheel {
     class Scene
     {
         friend class SceneHierarchyPanel;
+        friend class SceneSerializer;
         friend class Entity;
     public:
         Scene();

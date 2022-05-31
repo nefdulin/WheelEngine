@@ -97,7 +97,9 @@ set(SRC_SCENE
         Scene/SceneCamera.h
         Scene/Scene.cpp
         Scene/Entity.cpp
-        Scene/SceneCamera.cpp)
+        Scene/SceneCamera.cpp
+        Scene/SceneSerializer.h
+        Scene/SceneSerializer.cpp)
 
 set(WHEEL_SRC
         ${SRC_CORE}
