@@ -38,12 +38,20 @@ namespace Wheel {
         virtual void OnImGuiRender() override;
 
         bool OnScreenResize(Wheel::WindowResizeEvent& e);
+        bool OnKeyPressed(Wheel::KeyPressedEvent& e);
     public:
         void NewScene();
         void NewScene(std::string name);
         void LoadScene(std::string name);
         void OpenScene(const std::filesystem::path& path);
         void SaveScene(std::string name);
+
+    private:
+        void OnScenePlay();
+        void OnSceneStop();
+
+        // UI Panels
+        void UI_Toolbar();
 
     private:
         Ref<EditorCamera> m_EditorCamera;
@@ -58,9 +66,20 @@ namespace Wheel {
         Ref<SimpleDialog> m_LoadSceneDialog;
         Ref<SimpleDialog> m_SaveSceneDialog;
 
+        int m_GizmoType = -1;
+
         bool m_ViewportHovered = true;
         bool m_ViewportFocused = true;
         glm::vec2 m_ViewportSize;
+
+        enum class SceneState
+        {
+            Edit = 0, Play = 1
+        };
+        SceneState m_SceneState = SceneState::Edit;
+
+        // Editor resources
+        Ref<Texture2D> m_IconPlay, m_IconStop;
     };
 }
 

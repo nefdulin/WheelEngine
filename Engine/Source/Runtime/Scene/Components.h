@@ -12,8 +12,8 @@ namespace Wheel {
     {
         TransformComponent() = default;
         TransformComponent(const TransformComponent& other) = default;
-        TransformComponent(const glm::vec3& position) :
-            Position(position) {}
+        TransformComponent(const glm::vec3& position)
+            :   Position(position) {}
 
         operator glm::mat4() { return GetTransform(); }
 
@@ -22,7 +22,7 @@ namespace Wheel {
             glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
 
             return glm::translate(glm::mat4(1.0f), Position)
-                   * rotation;
+                   * rotation * glm::scale(glm::mat4(1.0f), Scale);
         }
 
         glm::vec3 Position  = {0.0f, 0.0f, 0.0f};
