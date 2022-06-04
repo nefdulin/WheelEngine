@@ -176,13 +176,6 @@ namespace Wheel {
             m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         }
 
-        if (Input::IsKeyPressed(Key::Enter))
-        {
-            auto entity = m_Scene->CreateEntity("New Entity");
-            auto& component = entity->AddComponent<MeshRendererComponent>();
-            component.Mesh = MeshFactory::CreateSphere(1.0f);
-        }
-
         m_Framebuffer->Bind();
         Wheel::RenderCommand::SetClearColor({ 0.01f, 0.01f, 0.07f, 1.0f });
         Wheel::RenderCommand::Clear();
@@ -393,6 +386,9 @@ namespace Wheel {
         bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
         bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 
+        if (m_SceneState != SceneState::Edit || !m_ViewportFocused)
+            return true;
+
         switch (e.GetKeyCode())
         {
             case Key::N:
@@ -416,9 +412,6 @@ namespace Wheel {
 
                 break;
             }
-
-            if (m_SceneState != SceneState::Edit)
-                return true;
 
                 // Gizmos
             case Key::Q:

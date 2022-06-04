@@ -144,6 +144,7 @@ namespace Wheel {
 
             auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
             out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+            out << YAML::Key << "TextureName" << YAML::Value << spriteRendererComponent.TextureName;
 
             out << YAML::EndMap; // SpriteRendererComponent
         }
@@ -248,6 +249,12 @@ namespace Wheel {
                 {
                     auto& src = deserializedEntity->AddComponent<SpriteRendererComponent>();
                     src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+                    std::string textureName = spriteRendererComponent["TextureName"].as<std::string>();
+                    if (textureName != "")
+                    {
+                        std::string fullPath = "assets/textures/" + spriteRendererComponent["TextureName"].as<std::string>();
+                        src.Texture = Texture2D::Create(fullPath);
+                    }
                 }
             }
         }

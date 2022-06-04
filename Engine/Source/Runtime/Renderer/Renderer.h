@@ -42,6 +42,8 @@ namespace Wheel {
         static void DrawQuad(const glm::vec3& position, const glm::vec3& scale, const Ref<Texture>& texture);
         static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
 
+        static void DrawSprite(const glm::mat4& transform, const Ref<Texture2D>& texture);
+
         static void DrawModel(const Ref<Model>& model);
         static void DrawModel(const glm::mat4& transform, const Ref<Model>& model);
         static void DrawMesh(const Ref<Mesh>& mesh); 

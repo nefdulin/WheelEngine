@@ -38,6 +38,9 @@ namespace Wheel {
             Color(color) {}
 
         operator glm::vec4() { return Color; }
+
+        Ref<Texture2D> Texture;
+        std::string TextureName;
         glm::vec4 Color{1.0f};
     };
 

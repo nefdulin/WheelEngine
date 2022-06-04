@@ -151,4 +151,19 @@ namespace Wheel
         RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
     }
 
+    void Renderer2D::DrawSprite(const glm::mat4& transform, const Ref<Texture2D>& texture)
+    {
+        s_Data->DefaultShader->Bind();
+        s_Data->QuadVertexArray->Bind();
+
+        s_Data->DefaultShader->SetMat4("u_MVP", s_Data->CameraData->ViewProjection * transform);
+        s_Data->DefaultShader->SetFloat4("u_Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        texture->Bind(0);
+        s_Data->DefaultShader->SetInt("u_Texture", 0);
+
+        RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+    }
+
+
 }

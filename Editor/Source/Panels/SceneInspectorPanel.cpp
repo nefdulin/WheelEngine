@@ -242,6 +242,32 @@ namespace Wheel {
         DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
         {
             ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+
+            std::string& textureName = component.TextureName;
+            char buffer[256];
+            memset(buffer, 0, sizeof(buffer));
+            strcpy(buffer, textureName.c_str());
+            ImGui::Text("Texture: ");
+            ImGui::SameLine();
+            ImGui::PushItemWidth(100.0f);
+            if (ImGui::InputText("##Location", buffer, sizeof(buffer)))
+            {
+                textureName = std::string(buffer);
+            }
+            ImGui::PopItemWidth();
+            ImGui::SameLine();
+
+            ImGui::PushItemWidth(-1);
+            if (ImGui::Button("Load"))
+            {
+                if (textureName != "")
+                {
+                    std::string fullPath = "assets/textures/" + textureName;
+                    component.Texture = Texture2D::Create(fullPath);
+                }
+                // Load the texture
+            }
+            ImGui::PopItemWidth();
         });
 
         DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](auto& component)

@@ -62,6 +62,11 @@ namespace Wheel {
         Renderer2D::DrawQuad(transform, color);
     }
 
+    void Renderer::DrawSprite(const glm::mat4& transform, const Ref<Texture2D>& texture)
+    {
+        Renderer2D::DrawSprite(transform, texture);
+    }
+
     void Renderer::DrawModel(const Ref<Model>& model)
     {
         for (const Ref<Mesh>& mesh : model->GetMeshes())

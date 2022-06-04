@@ -69,7 +69,10 @@ namespace Wheel {
         {
             auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-            Renderer::DrawQuad(transform, sprite);
+            if (sprite.Texture)
+                Renderer::DrawSprite(transform, sprite.Texture);
+            else
+                Renderer::DrawQuad(transform, sprite);
         }
 
         Renderer::EndScene();
@@ -84,7 +87,10 @@ namespace Wheel {
         {
             auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-            Renderer::DrawQuad(transform, sprite);
+            if (sprite.Texture)
+                Renderer::DrawSprite(transform, sprite.Texture);
+            else
+                Renderer::DrawQuad(transform, sprite);
         }
 
         auto modelGroup = m_Registry.group<ModelRendererComponent>(entt::get<TransformComponent>);
